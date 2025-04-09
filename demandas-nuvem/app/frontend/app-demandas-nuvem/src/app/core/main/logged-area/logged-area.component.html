@@ -1,0 +1,36 @@
+<div id="container">
+  <div id="top-bar">
+    <div class="menu">
+      <span [routerLink]="['/demandas']" routerLinkActive="router-link-active">Demandas</span>
+      <span [routerLink]="['/usuarios']" routerLinkActive="router-link-active">Usuários</span>
+      <span>Catálogo</span>
+    </div>
+    <div id="center"></div>
+    <div id="profile">
+      <div class="profile-left">
+        <div id="user-picture">
+          <img [src]="sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + currentUser!.thumb)" width="64px" height="64px" />
+        </div>
+        <div id="user-name">
+          <mat-icon>settings</mat-icon>{{currentUser!.nome}}</div>
+      </div>
+      <div class="actions">
+          <mat-icon>logout</mat-icon>
+      </div>
+    </div>
+  </div>
+  <div id="breadcrumb">
+    @for(item of breadcrumbItens;track item;let last = $last){
+      @if(last){
+        <span>{{item}}</span>
+      }
+      @else {
+        <span>{{item}} / </span>
+      }
+    }
+  </div>
+  <div id="content">
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

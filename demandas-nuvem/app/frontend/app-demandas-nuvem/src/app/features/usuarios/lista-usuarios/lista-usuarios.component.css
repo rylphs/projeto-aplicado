@@ -1,0 +1,8 @@
+#container{
+  display: flex;
+  flex-direction: column;
+  padding: 30px;;
+}
+.actions-col button{
+  margin-right: 15px;
+}

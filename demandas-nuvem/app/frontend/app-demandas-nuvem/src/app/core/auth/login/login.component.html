@@ -1,0 +1,16 @@
+<div id="form-container">
+  <div></div>
+  <form name="login" id="login-form">
+    <mat-form-field>
+      <mat-label>E-mail</mat-label>
+      <input [(ngModel)]="usuario" name="usuario" matInput placeholder="Digite seu e-mail">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Senha</mat-label>
+      <input [(ngModel)]="senha" name="senha" matInput type="password" placeholder="Digite sua Senha">
+    </mat-form-field>
+    <div id="login-error" [class.show]="falhouLogin">Usuário e/ou senha inválidos</div>
+    <button (click)="login()" mat-flat-button>Entrar</button>
+  </form>
+  <div></div>
+</div>

@@ -1,0 +1,34 @@
+#form-container {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(200, 200, 200);
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100%;
+  align-items: center;
+}
+
+#form-container div:first-child, #form-container div:last-child{
+  flex-grow: 1;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  flex-grow: 0;
+  padding: 20px;
+  width: 500px;
+}
+
+#login-error {
+  visibility: hidden;
+  color: rgb(149, 22, 22);
+  text-align: center;
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+#login-error.show {
+  visibility: visible;
+}

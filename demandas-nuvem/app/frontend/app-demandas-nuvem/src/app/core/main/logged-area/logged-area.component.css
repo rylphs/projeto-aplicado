@@ -1,0 +1,81 @@
+#container {
+  display: flex;
+  flex-direction: column;
+}
+
+#top-bar {
+  background-color: #40547c;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+}
+
+#top-bar #center {
+  flex-grow: 4;
+}
+
+#content {
+  flex-grow: 1;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-grow: 1;
+}
+
+.menu span {
+  color: white;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.menu span:hover {
+  text-decoration: underline;
+}
+
+.router-link-active{
+  font-size: 1.7em !important;
+}
+
+#profile {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  padding: 20px;
+  align-items: center;
+}
+
+#profile mat-icon:hover {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+#user-name {
+  display: flex;
+  align-items: center;
+}
+
+#profile .actions {
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+#breadcrumb {
+  padding: 10px;
+  margin: 5px;
+  background-color: #1469C0;
+  color: white;
+  font-weight: bold;
+}
+
+#breadcrumb span {
+  font-size: 1.2em;
+}
