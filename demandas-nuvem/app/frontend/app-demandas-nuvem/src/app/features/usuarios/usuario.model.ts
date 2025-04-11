@@ -1,8 +1,8 @@
 
 export enum UserRole {
   GESTOR = "Gestor",
-  RESPONSAVEL_TECNICO = "Responsável Técnico",
-  VISITANTE = "Visitante"
+  TECNICO = "Técnico",
+  ADMIN = "Administrador"
 }
 
 export class Usuario {
@@ -11,7 +11,6 @@ export class Usuario {
   nome!: string;
   thumb!: string;
   role!: String;
-  roleName!: string;
 
   static fromDadosUsuario(data:any):Usuario{
     let usuario:Usuario = new Usuario();
@@ -19,11 +18,12 @@ export class Usuario {
     usuario.email = data.email;
     usuario.nome = data.nome;
     usuario.thumb = data.thumb;
-    let roleName = data.role.toString();
-    if(roleName in UserRole){
-      usuario.role = UserRole[roleName as keyof typeof UserRole];
-    }
+    usuario.role = data.role;
     return usuario;
+  }
+
+  get roleName():string {
+    return UserRole[this.role as keyof typeof UserRole];
   }
 
 }

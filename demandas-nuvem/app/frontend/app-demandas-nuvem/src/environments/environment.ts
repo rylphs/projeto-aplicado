@@ -1,5 +1,5 @@
 export const environment = {
-  APIGATEWAY_URL: "https://uexydgssff.execute-api.us-east-2.amazonaws.com/dev",
+  APIGATEWAY_URL: "https://us474bd4vd.execute-api.us-east-2.amazonaws.com/dev",
   APIGATEWAY_ROUTES: {
     LOGIN: "login"
   },

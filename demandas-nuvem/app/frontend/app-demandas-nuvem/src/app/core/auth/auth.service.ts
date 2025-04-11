@@ -17,6 +17,7 @@ export class AuthService extends ApiService<any>{
       payload: {user: username, pwd:password }
     }).pipe(map((data) => {
       if(data.statusCode >= 400){
+        console.log("code", data.statusCode)
         throw new Error(data.message)
       }
       console.log((data.message.usuario))

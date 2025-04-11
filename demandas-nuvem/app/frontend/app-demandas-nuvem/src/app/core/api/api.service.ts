@@ -6,11 +6,12 @@ import { Observable } from "rxjs";
 
 export type ListResult<T> = {
   message: T[];
+  statusCode: number;
 }
 
 export type GetCallResultType<T> = {
   message: T;
-
+  statusCode: number;
 }
 
 @Injectable({
@@ -33,16 +34,16 @@ export class ApiService<T> {
     return this.client.get<T>(`${this.API_URL}/${path}`);
   }
 
-  protected doPost(path: string, data: any): Observable<T> {
-    return this.client.post<T>(`${this.API_URL}/${path}`, data);
+  protected doPost(path: string, data: any): Observable<GetCallResultType<T>> {
+    return this.client.post<GetCallResultType<T>>(`${this.API_URL}/${path}`, data);
   }
 
   protected doPatch(path: string, data: any): Observable<T> {
     return this.client.patch<T>(`${this.API_URL}/${path}`, data);
   }
 
-  protected doPut(path: string, data: any): Observable<T> {
-    return this.client.put<T>(`${this.API_URL}/${path}`, data);
+  protected doPut(path: string, data: any): Observable<GetCallResultType<T>> {
+    return this.client.put<GetCallResultType<T>>(`${this.API_URL}/${path}`, data);
   }
 
   protected doDelete(path: string): Observable<string> {

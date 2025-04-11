@@ -1,0 +1,10 @@
+#usuario {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  margin-top: 30ps;
+}
+
+#usuario button{
+  margin-right: 10px;
+}

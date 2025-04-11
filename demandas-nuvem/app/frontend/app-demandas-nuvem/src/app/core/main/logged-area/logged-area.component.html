@@ -9,7 +9,7 @@
     <div id="profile">
       <div class="profile-left">
         <div id="user-picture">
-          <img [src]="sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + currentUser!.thumb)" width="64px" height="64px" />
+          <img [src]="currentUser!.thumb" width="64px" height="64px" />
         </div>
         <div id="user-name">
           <mat-icon>settings</mat-icon>{{currentUser!.nome}}</div>

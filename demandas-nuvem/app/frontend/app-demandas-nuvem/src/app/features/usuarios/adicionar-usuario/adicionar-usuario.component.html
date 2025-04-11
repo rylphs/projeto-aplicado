@@ -1,1 +1,46 @@
-<p>adicionar-usuario works!</p>
+
+<form id="usuario">
+<mat-form-field>
+  <mat-label>Nome Completo</mat-label>
+  <input name="nome" [(ngModel)]="usuario.nome" matInput>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>E-mail</mat-label>
+  @if(isEditing){
+    <input disabled="" name="email" [(ngModel)]="usuario.email" matInput>
+  }
+  @else {
+    <input name="email" [(ngModel)]="usuario.email" matInput>
+  }
+
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Papel</mat-label>
+  <mat-select name="role" [(ngModel)]="usuario.role">
+    @for(papel of lista_papeis; track papel){
+        <mat-option value="{{papel}}">{{papeis[papel]}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+@if(!isEditing){
+  <mat-form-field>
+    <mat-label>Senha</mat-label>
+    <input name="senha" [(ngModel)]="senha" type="password" matInput>
+  </mat-form-field>
+}
+
+<div id="buttons">
+  @if(isEditing){
+    <button mat-flat-button (click)="atualizarUsuario()">Atualizar</button>
+  }
+  @else {
+    <button mat-flat-button (click)="cadastrarUsuario()">Cadastrar</button>
+  }
+
+  <button mat-flat-button [routerLink]="['/app/usuarios']">Cancelar</button>
+</div>
+</form>
+

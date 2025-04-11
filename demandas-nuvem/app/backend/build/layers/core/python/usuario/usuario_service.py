@@ -37,58 +37,44 @@ class UsuarioService(Connection):
         return self.find_first({"email": email})
 
     def insert_user(self, nome:str, email:str, role:UserRoles, pwd):
+        if (not email) or (not nome) or (not role) or (not pwd):
+            raise Exception("Parâmetros insuficientes")
+        
         db_user = self.get_user_by_email(email)
         if(db_user):
-            return db_user
+            raise Exception("Usuário Já existe no sistem")
         
         user = {"nome": nome, "email": email, "role": role}
-        hash = self._get_hashed_password(pwd)
+        hash = hashlib.sha224(pwd.encode()).hexdigest()
         pwdConnection = Connection(USER_PWD_COLLECTION, self.client)
-        pwdConnection.insert_one({"user": email, "pwd": hash["pwd"]})
+        pwdConnection.insert_one({"user": email, "pwd": hash})
         print(f"insert user with pwd: {hash}")
-        return self.insert_one(user)
+        data = self.insert_one(user)
+        return str(data.inserted_id)
+    
+    def update_user(self, email:str, nome:str, role:UserRoles = None, pwd = None):
+        if (not email):
+            raise Exception("Parâmetros insuficientes")
+        user = self.get_user_by_email(email)
+        id = user.pop("_id")
+        if nome: user["nome"] = nome
+        if role: user["role"] = role
+        
+        self.update_one(id, user)
+        
+        if pwd:
+            hash = hashlib.sha224(pwd.encode()).hexdigest()
+            pwdConnection = Connection(USER_PWD_COLLECTION, self.client)
+            pwdEntry = pwdConnection.find_first({"user": email})
+            pwdConnection.update_one(pwdEntry["_id"], {"user": email, "pwd": hash})
+            
+        return True
+        
 
     def update_roles(self, email: str, roles:List[UserRoles]):
         return self.update_one(email, {"roles": roles})
     
     def delete_user(self, email):
-        return self.delete_by_id(email)
-
-    def login(self, email, pwd):
-        user = self.get_user_by_email(email)
-        if not user:
-            return None
-        
-        pwdConnection = Connection(USER_PWD_COLLECTION, self.client)
-        db_hashed_pwd = pwdConnection.find_first({"user": email})
-        print("loging user " + email + " with pwd " + pwd)
-        logged = (db_hashed_pwd != None) and ( hashlib.sha224(pwd.encode()).hexdigest() == db_hashed_pwd["pwd"])
-        if logged:
-            user["_id"] = str(user["_id"])
-            return {
-                "usuario": user, 
-                "token": self.__getToken(user['email'], db_hashed_pwd["pwd"])
-            }
-        return None
-
-    def __getToken(self, usuario, senha):
-        expiration = datetime.now(tz=timezone.utc) + EXPIRATION_TIME
-        print(expiration.isoformat())
-        return jwt.encode({usuario: usuario, senha: senha, "exp": expiration}, SECRET)
-    
-    
-    def _get_hashed_password(self, plain_text_password, salt = ""):
-        
-        hashpwd = hashlib.sha224(plain_text_password.encode()).hexdigest()
-        print("hashed: " + hashpwd)
-        return {"salt":salt, "pwd": hashpwd}
-
-    def decode(self, token):
-        try:
-            decoded = jwt.decode(token, SECRET, algorithms=["HS256"])
-            return decoded
-        except jwt.ExpiredSignatureError:
-            print("expired")
-
+        return self.delete_by_filter({"email": email})
 
 

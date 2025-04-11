@@ -50,10 +50,13 @@ class Connection:
         return self.collection().insert_one(value)
     
     def update_one(self, id:str, value: Mapping[str, any]):
-        return self.collection().update_one({"_id": ObjectId(id)}, value)
+        return self.collection().update_one({"_id": ObjectId(id)}, {"$set": value})
     
     def replace_one(self, id:str, value: Mapping[str, any]):
         return self.collection().replace_one({"_id": ObjectId(id)}, value)
+    
+    def delete_by_filter(self, filter):
+        return self.collection().delete_one(filter)
     
     def delete_by_id(self, id:str):
         return self.collection().delete_one({"_id": ObjectId(id)})
