@@ -1,0 +1,51 @@
+
+<form id="demanda">
+  <mat-form-field>
+    <mat-label>Cliente</mat-label>
+    <input name="cliente" [(ngModel)]="demanda.cliente" matInput>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>E-mail</mat-label>
+      <input name="email" [(ngModel)]="demanda.emailCliente" matInput>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Descrição</mat-label>
+      <input name="descricao" [(ngModel)]="demanda.descricao" matInput>
+  </mat-form-field>
+
+  <div class="user-field">
+    <button (click)="selecionarGestor()" mat-mini-fab aria-label="Selecionar Gestor">
+      <mat-icon>person</mat-icon>
+    </button>
+  <mat-form-field>
+    <mat-label>Gestor</mat-label>
+      <input readonly="" name="gestor" value="{{demanda.gestor ?  demanda.gestor.nome : ''}}" matInput>
+  </mat-form-field>
+</div>
+
+  <div class="user-field">
+    <button (click)="selecionarTecnico()" mat-mini-fab aria-label="Selecionar Técnico">
+      <mat-icon>person</mat-icon>
+    </button>
+  <mat-form-field>
+    <mat-label>Tecnico</mat-label>
+      <input readonly="" name="tecnico"  value="{{demanda.tecnico ?  demanda.tecnico.nome : ''}}" matInput>
+  </mat-form-field>
+
+  </div>
+
+  <div id="buttons">
+    @if(isEditing){
+      <button mat-flat-button (click)="atualizarDemanda()">Atualizar</button>
+    }
+    @else {
+      <button mat-flat-button (click)="cadastrarDemanda()">Cadastrar</button>
+    }
+
+    <button mat-flat-button [routerLink]="['/app/demandas']">Cancelar</button>
+  </div>
+  </form>
+
+

@@ -1,24 +1,36 @@
 <div id="container">
   <div id="top-bar">
     <div class="menu">
-      <span [routerLink]="['/demandas']" routerLinkActive="router-link-active">Demandas</span>
-      <span [routerLink]="['/usuarios']" routerLinkActive="router-link-active">Usuários</span>
+      <span [routerLink]="['/app/demandas']" routerLinkActive="router-link-active">Demandas</span>
+      <span [routerLink]="['/app/usuarios']" routerLinkActive="router-link-active">Usuários</span>
       <span>Catálogo</span>
     </div>
+
     <div id="center"></div>
+
     <div id="profile">
-      <div class="profile-left">
+
+      <div class="profile-top">
         <div id="user-picture">
           <img [src]="currentUser!.thumb" width="64px" height="64px" />
         </div>
+        <div class="actions">
+          <mat-icon (click)="logout()">logout</mat-icon>
+        </div>
+      </div>
+      <div class="profile-bottom">
         <div id="user-name">
-          <mat-icon>settings</mat-icon>{{currentUser!.nome}}</div>
+          <div><mat-icon>settings</mat-icon></div>
+          <span>{{currentUser!.nome}}</span>
+        </div>
       </div>
-      <div class="actions">
-          <mat-icon>logout</mat-icon>
-      </div>
+
+
+
     </div>
+
   </div>
+
   <div id="breadcrumb">
     @for(item of breadcrumbItens;track item;let last = $last){
       @if(last){

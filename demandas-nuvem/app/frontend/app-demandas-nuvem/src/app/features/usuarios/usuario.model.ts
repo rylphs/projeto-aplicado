@@ -11,6 +11,7 @@ export class Usuario {
   nome!: string;
   thumb!: string;
   role!: String;
+  inativo: boolean = false;
 
   static fromDadosUsuario(data:any):Usuario{
     let usuario:Usuario = new Usuario();
@@ -19,11 +20,16 @@ export class Usuario {
     usuario.nome = data.nome;
     usuario.thumb = data.thumb;
     usuario.role = data.role;
+    usuario.inativo = data.inativo;
     return usuario;
   }
 
   get roleName():string {
     return UserRole[this.role as keyof typeof UserRole];
+  }
+
+  toString(){
+    return this.nome;
   }
 
 }

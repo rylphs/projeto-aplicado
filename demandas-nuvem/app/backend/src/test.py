@@ -1,23 +1,28 @@
 from pprint import pprint
 from core.usuario.usuario_service import UsuarioService
-from core.usuario.auth_service import AuthService
+from core.demanda.demanda_service import DemandaService
 from core.database.connection import Connection
 from core.database.connection import clear_collection
 import json
 
-service = AuthService()
+service = DemandaService()
 
-logged = service.login("rylphs@gmail.com", "teste55555")
 
-if logged: 
-    print("logado com senha errada")
+demandas = service.list_all_demandas()
 
-logged = service.login("rylphs@gmail.com", "teste")
+pprint(demandas[0])
 
-if logged: 
-    print("logado com sucesso", logged["token"])
+# logged = service.login("rylphs@gmail.com", "teste55555")
 
-pprint(logged)    
+# if logged: 
+#     print("logado com senha errada")
+
+# logged = service.login("rylphs@gmail.com", "teste")
+
+# if logged: 
+#     print("logado com sucesso", logged["token"])
+
+# pprint(logged)    
 #token = logged["token"]
 
 

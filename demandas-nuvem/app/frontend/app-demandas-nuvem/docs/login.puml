@@ -1,0 +1,22 @@
+@startuml
+Usuario -> LoginPage : login(usuario, senha)
+LoginPage -> APIGateway: POST /login(usuario, senha)
+activate APIGateway
+APIGateway -> Handler: login(usuario, senha)
+activate Handler
+Handler -> AuthService: login(usuario, senha)
+activate AuthService
+AuthService -> AuthService: compareHashes(senha)
+AuthService -> AuthService: createToken(usuario)
+AuthService -> DBSessionStorage: createSession(usuario, token)
+AuthService -> Handler: token
+deactivate AuthService
+Handler -> APIGateway: token
+deactivate Handler
+APIGateway --> LoginPage: token
+deactivate APIGateway
+activate LoginPage
+LoginPage -> BrowserSessionStorage: token
+LoginPage -> Usuario: área logada
+deactivate LoginPage
+@enduml

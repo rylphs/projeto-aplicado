@@ -26,13 +26,26 @@ class DemandaService(Connection):
         super().__init__(DEMANDAS_COLLECTION, client)
             
     def list_all_demandas(self):
-        return self.find_all()
+        user_connection = Connection("users", self.client)
+        usuarios = user_connection.to_list(user_connection.find_all())
+        demandas = self.to_list(self.find_all())
+        for demanda in demandas:
+            gestor = next(filter(lambda u: u["email"] == demanda["gestor"], usuarios ), None)
+            tecnico = next(filter(lambda u: u["email"] == demanda["tecnico"], usuarios ), None)
+            if gestor:
+                gestor["_id"] = str(gestor["_id"])
+                demanda["gestor"] = gestor
+            if tecnico:
+                tecnico["_id"] = str(tecnico["_id"])
+                demanda["tecnico"] = tecnico
+        return demandas
 
     def get_demanda_by_id(self, id:str):
         return self.find_one(id)
 
     def insert_demanda(self, demanda: Demanda):
-       return self.insert_one(demanda.serialize())
+       data = self.insert_one(demanda)
+       return str(data.inserted_id)
 
     def delete_demanda(self, id:str):
         self.delete_by_id(id)

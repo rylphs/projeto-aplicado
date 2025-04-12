@@ -44,7 +44,7 @@ class UsuarioService(Connection):
         if(db_user):
             raise Exception("Usuário Já existe no sistem")
         
-        user = {"nome": nome, "email": email, "role": role}
+        user = {"nome": nome, "email": email, "role": role, "inativo": False}
         hash = hashlib.sha224(pwd.encode()).hexdigest()
         pwdConnection = Connection(USER_PWD_COLLECTION, self.client)
         pwdConnection.insert_one({"user": email, "pwd": hash})
@@ -75,6 +75,12 @@ class UsuarioService(Connection):
         return self.update_one(email, {"roles": roles})
     
     def delete_user(self, email):
-        return self.delete_by_filter({"email": email})
+        if (not email):
+            raise Exception("Parâmetros insuficientes")
+        user = self.get_user_by_email(email)
+        id = user.pop("_id")
+        user["inativo"] = True
+        self.update_one(id, user)
+        return True
 
 

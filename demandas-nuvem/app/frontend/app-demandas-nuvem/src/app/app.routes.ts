@@ -4,11 +4,14 @@ import { LoginComponent } from './core/auth/login/login.component';
 import { LoggedAreaComponent } from './core/main/logged-area/logged-area.component';
 import { ListaUsuariosComponent } from './features/usuarios/lista-usuarios/lista-usuarios.component';
 import { AdicionarUsuarioComponent } from './features/usuarios/adicionar-usuario/adicionar-usuario.component';
+import { ListaDemandasComponent } from './features/demandas/lista-demandas/lista-demandas.component';
+import { CriarDemandaComponent } from './features/demandas/criar-demanda/criar-demanda.component';
 
 export const Paths = {
   LOGIN: "login",
   MAIN: "app",
-  LISTA_USUARIOS: "usuarios"
+  LISTA_USUARIOS: "usuarios",
+  LISTA_DEMANDAS: "demandas"
 }
 
 export const routes: Routes = [
@@ -21,6 +24,12 @@ export const routes: Routes = [
     {path: 'usuarios/novo', component: AdicionarUsuarioComponent,
         data:{"titulo": "Adicionar Usuário", breadcrumb: ["Usuários", "Adicionar"]}},
     {path: 'usuarios/editar/:id', component: AdicionarUsuarioComponent,
+        data:{"titulo": "Editar Usuário", breadcrumb: ["Usuários", "Editar"]}},
+    {path: 'demandas', component: ListaDemandasComponent,
+          data:{"titulo": "Demandas", breadcrumb: ["Demandas"]}},
+    {path: 'demandas/nova', component: CriarDemandaComponent,
+      data:{"titulo": "Adicionar Usuário", breadcrumb: ["Usuários", "Adicionar"]}},
+    {path: 'demandas/editar/:id', component: CriarDemandaComponent,
         data:{"titulo": "Editar Usuário", breadcrumb: ["Usuários", "Editar"]}},
   ]},
 ];

@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Selecionar Usuário</h2>
+<mat-dialog-content>
+  <mat-form-field class="full-width">
+    <mat-label>Selecionar Usuário</mat-label>
+    <input type="text" matInput placeholder="Digite o nome do Gestor" aria-label="Gestor"
+      [(ngModel)]="usuarioSelecionado" [matAutocomplete]="auto">
+
+    <mat-autocomplete #auto="matAutocomplete">
+      @for (usuario of usuarios; track usuario) {
+      <mat-option [value]="usuario">{{usuario.nome}}</mat-option>
+      }
+    </mat-autocomplete></mat-form-field>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="cancelar()" cdkFocusInitial>Cancelar</button>
+  <button mat-button (click)="confirmar()">Confirmar</button>
+</mat-dialog-actions>

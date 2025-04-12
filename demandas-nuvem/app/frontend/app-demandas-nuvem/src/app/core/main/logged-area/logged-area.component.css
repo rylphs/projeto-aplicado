@@ -43,16 +43,30 @@
 
 #profile {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   color: white;
   padding: 20px;
   align-items: center;
 }
 
+.profile-top {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+}
+
+#profile mat-icon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
 #profile mat-icon:hover {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
+  border-bottom: 1px solid white;
+}
+
+#user-picture {
+  text-align: center;
 }
 
 #user-name {
@@ -64,6 +78,8 @@
   color: white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
 }
 
 

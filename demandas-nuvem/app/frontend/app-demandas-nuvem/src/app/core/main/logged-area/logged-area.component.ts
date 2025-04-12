@@ -33,4 +33,9 @@ export class LoggedAreaComponent implements AfterViewInit{
   get currentUser(): Usuario | null{
     return this.authService.currentUser;
   }
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(["login"]);
+  }
 }

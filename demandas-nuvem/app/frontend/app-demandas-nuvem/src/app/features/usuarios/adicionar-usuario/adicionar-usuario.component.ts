@@ -37,7 +37,6 @@ export class AdicionarUsuarioComponent {
   constructor(private router:Router, private activatedRoute:ActivatedRoute,
     private usuarioService: UsuarioService, messageService: MessageService){
       this.usuario = this.usuarioService.selectedUser();
-      console.log(this.usuario)
       if(this.usuario._id){
         this.isEditing = true;
       }

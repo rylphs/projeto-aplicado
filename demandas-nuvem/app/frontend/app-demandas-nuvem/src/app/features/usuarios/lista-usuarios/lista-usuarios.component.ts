@@ -23,7 +23,7 @@ import { Subject } from 'rxjs';
 export class ListaUsuariosComponent {
   usuarios!: Usuario[];
   datasource: any = "";
-  displayedColumns: string[] = ['nome', 'email', 'role', 'actions'];
+  displayedColumns: string[] = ["inativo", 'nome', 'email', 'role', 'actions'];
   readonly dialog = inject(MatDialog);
   _mensagens: Subject<MessageType>;
 

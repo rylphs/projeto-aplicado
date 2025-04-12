@@ -14,18 +14,18 @@ USER_SESSION_COLLETION = "session"
 EXPIRATION_TIME = timedelta(seconds=2)
 
 class AuthService():
-    
+        
     def login(self, email:str, senha:str):
         user_connection = Connection(USER_COLLECTION)
         client = user_connection.client
         usuario = user_connection.find_first({"email": email})
-        # Usuario não encontrado na base
-        if not usuario:
+        # Usuario não encontrado na base ou usuario desativado
+        if not usuario or ("inativo" in usuario and usuario["inativo"]):
             return None
         
         # Converte ObjectId to MongoDB para string
         usuario["_id"] = str(usuario["_id"])
-        usuario.pop("thumb")
+        
         if not self._password_matches(client, email, senha):
             return None
         

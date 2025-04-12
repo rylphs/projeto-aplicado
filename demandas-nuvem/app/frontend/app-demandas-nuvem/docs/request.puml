@@ -1,0 +1,32 @@
+@startuml
+Usuario -> Page : request
+activate Page
+Page -> BrowserSessionStorage: getToken
+activate BrowserSessionStorage
+BrowserSessionStorage -> Page: token
+deactivate BrowserSessionStorage
+Page -> APIGateway: request(resource, usuario, token, method, params)
+activate APIGateway
+APIGateway -> Handler: reqquest(usuario, token, params)
+activate Handler
+Handler -> AuthService: validate(usuario, token)
+activate AuthService
+AuthService -> DBSessionStorage: getSession(usario)
+activate DBSessionStorage
+DBSessionStorage -> AuthService: sessionData
+deactivate DBSessionStorage
+AuthService -> Handler: sessionData
+deactivate AuthService
+Handler -> Service: method(sessionData, params)
+activate Service
+Service -> Service: validatePermission()
+Service -> Handler: response
+deactivate Service
+Handler --> APIGateway: response
+deactivate Handler
+APIGateway --> Page: response
+deactivate APIGateway
+Page -> Page: render(response)
+Page -> Usuario: page
+deactivate Page
+@enduml

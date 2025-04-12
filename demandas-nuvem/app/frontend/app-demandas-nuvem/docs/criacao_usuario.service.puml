@@ -1,0 +1,21 @@
+@startuml
+UsuarioAdmin -> UsuariosPage : criarUsuario(dados, senha)
+UsuariosPage -> APIGateway: POST /usuarios(dados, senha)
+activate APIGateway
+APIGateway -> Handler: criarUsuario(dados, senha)
+activate Handler
+Handler -> UsuarioService: criarUsuario(dados, senha)
+activate UsuarioService
+UsuarioService -> UsuarioService: criarHash(senha)
+UsuarioService -> UsuarioCollection: salvar(dados)
+UsuarioService -> PasswordCollection: salvar(usuario, hash)
+UsuarioService -> Handler: idUsuario
+deactivate UsuarioService
+Handler -> APIGateway: idUsuario
+deactivate Handler
+APIGateway --> UsuarioPage: idUsuario
+deactivate APIGateway
+activate UsuariosPage
+UsuariosPage --> UsuarioAdmin:OK
+deactivate UsuariosPage
+@enduml

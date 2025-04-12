@@ -20,9 +20,9 @@ def lambda_handler(event, context):
     payload = event['payload']
     service = AuthService()
     result = service.login(payload['user'], payload['pwd'])
-    userid = result["user_id"]
-    url = generate_url("user_thumbs/"+userid+".jpg")
-    result["usuario"]["thumb"] = url
+    #userid = result["user_id"]
+    #url = generate_url("user_thumbs/"+userid+".jpg")
+    #result["usuario"]["thumb"] = url
     if not result:
         return unauthorized_msg("Autenticação falhou")
     return success_msg(result)
