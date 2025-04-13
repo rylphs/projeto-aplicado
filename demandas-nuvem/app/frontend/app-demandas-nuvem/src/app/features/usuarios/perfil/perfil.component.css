@@ -1,0 +1,23 @@
+#perfil {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+#perfil-top{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#dados {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+#perfil button{
+  margin-right: 10px;
+}

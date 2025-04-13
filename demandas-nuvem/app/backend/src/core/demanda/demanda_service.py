@@ -50,3 +50,11 @@ class DemandaService(Connection):
     def delete_demanda(self, id:str):
         self.delete_by_id(id)
         
+    def update_demanda(self, demanda):
+        if (not demanda or (not "_id" in demanda)):
+            raise Exception("Parâmetros insuficientes")
+        
+        id = demanda.pop("_id")
+        self.update_one(id, demanda)
+            
+        return True

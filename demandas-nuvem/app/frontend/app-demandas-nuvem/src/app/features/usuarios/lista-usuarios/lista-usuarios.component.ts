@@ -68,21 +68,26 @@ export class ListaUsuariosComponent {
     this.router.navigate(["editar", usuario._id], { relativeTo: this.route });
   }
 
+  adicionarUsuario(){
+    this.usuarioService.selectedUser.set(new Usuario());
+    this.router.navigate(["novo"], { relativeTo: this.route });
+  }
+
   delete(usuario:Usuario){
-    let title = "Excluir Usuário";
-    let content = `Deseja realmente excluir o usuario ${usuario.nome}?`;
+    let title = "Desativar Usuário";
+    let content = `Deseja desativar o usuario ${usuario.nome}?`;
     confirm(this.dialog, title, content, result =>{
       if(result){
         this.usuarioService.excluirUsuario(usuario.email).subscribe({
           next: ()=>{
-            this.showMessage({message: `Usuário ${usuario.nome} excluído com sucesso`})
+            this.showMessage({message: `Usuário ${usuario.nome} desativado com sucesso`})
 
             this.loadUsuarios();
           },
-          error: ()=>this.showMessage({message: `Erro ao excluir o usuário ${usuario.nome}`})
+          error: ()=>this.showMessage({message: `Erro ao desativar o usuário ${usuario.nome}`})
         })
       }
-      else console.log("nao vou excluir")
+
     })
 
   }

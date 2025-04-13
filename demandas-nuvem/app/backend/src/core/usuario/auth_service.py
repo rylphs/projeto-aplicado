@@ -14,7 +14,7 @@ USER_SESSION_COLLETION = "session"
 EXPIRATION_TIME = timedelta(seconds=2)
 
 class AuthService():
-        
+    
     def login(self, email:str, senha:str):
         user_connection = Connection(USER_COLLECTION)
         client = user_connection.client

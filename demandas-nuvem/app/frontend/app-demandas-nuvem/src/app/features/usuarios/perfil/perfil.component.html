@@ -1,0 +1,36 @@
+
+<form id="perfil">
+
+  <div id="perfil-top">
+    <app-avatar [file]="file"></app-avatar>
+
+    <div id="dados">
+    <mat-form-field>
+      <mat-label>Nome Completo</mat-label>
+      <input name="nome" [(ngModel)]="usuario.nome" matInput>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>E-mail</mat-label>
+        <input disabled="" name="email" [(ngModel)]="usuario.email" matInput>
+    </mat-form-field>
+    </div>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Nova Senha</mat-label>
+       <input name="senhaNova" [(ngModel)]="senhaNova" type="password" matInput>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Repetir Senha</mat-label>
+       <input name="repetirSenha" [(ngModel)]="repeticaoSenha" type="password" matInput>
+  </mat-form-field>
+
+
+  <div id="buttons">
+      <button mat-flat-button (click)="atualizarDados()">Atualizar Dados</button>
+
+    <button mat-flat-button [routerLink]="['/app/usuarios']">Cancelar</button>
+  </div>
+  </form>

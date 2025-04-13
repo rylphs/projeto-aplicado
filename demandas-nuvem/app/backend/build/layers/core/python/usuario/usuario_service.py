@@ -44,7 +44,7 @@ class UsuarioService(Connection):
         if(db_user):
             raise Exception("Usuário Já existe no sistem")
         
-        user = {"nome": nome, "email": email, "role": role, "inativo": False}
+        user = {"nome": nome, "email": email, "role": role, "inativo": False, "thumb": ""}
         hash = hashlib.sha224(pwd.encode()).hexdigest()
         pwdConnection = Connection(USER_PWD_COLLECTION, self.client)
         pwdConnection.insert_one({"user": email, "pwd": hash})
@@ -52,13 +52,14 @@ class UsuarioService(Connection):
         data = self.insert_one(user)
         return str(data.inserted_id)
     
-    def update_user(self, email:str, nome:str, role:UserRoles = None, pwd = None):
+    def update_user(self, email:str, nome:str, role:UserRoles = None, thumb = None, pwd = None):
         if (not email):
             raise Exception("Parâmetros insuficientes")
         user = self.get_user_by_email(email)
         id = user.pop("_id")
         if nome: user["nome"] = nome
         if role: user["role"] = role
+        if thumb: user["thumb"] = thumb
         
         self.update_one(id, user)
         
@@ -68,7 +69,10 @@ class UsuarioService(Connection):
             pwdEntry = pwdConnection.find_first({"user": email})
             pwdConnection.update_one(pwdEntry["_id"], {"user": email, "pwd": hash})
             
-        return True
+        user = self.get_user_by_email(email)
+        user["_id"] = str(user["_id"])
+            
+        return user
         
 
     def update_roles(self, email: str, roles:List[UserRoles]):

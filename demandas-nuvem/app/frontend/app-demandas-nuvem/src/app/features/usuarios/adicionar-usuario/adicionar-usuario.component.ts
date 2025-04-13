@@ -46,7 +46,6 @@ export class AdicionarUsuarioComponent {
   cadastrarUsuario(){
     this.usuarioService.cadastrarUsuario(this.usuario, this.senha).subscribe({
       next: (res) => {
-        console.log(res)
         this.mensagens.next({message: "Usuario Inserido com sucesso"});
         this.router.navigate([Paths.MAIN, Paths.LISTA_USUARIOS]);
       },
@@ -57,9 +56,8 @@ export class AdicionarUsuarioComponent {
   }
 
   atualizarUsuario(){
-    this.usuarioService.atualizarUsuario(this.usuario).subscribe({
+    this.usuarioService.atualizarUsuario(this.usuario, null).subscribe({
       next: (res) => {
-        console.log(res)
         this.mensagens.next({message: "Usuario Atualizado com sucesso"});
         this.router.navigate([Paths.MAIN, Paths.LISTA_USUARIOS]);
       },

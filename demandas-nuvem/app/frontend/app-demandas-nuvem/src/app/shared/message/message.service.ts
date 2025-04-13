@@ -19,7 +19,6 @@ export class MessageService {
 
   getSubject(name:string): Subject<MessageType> {
     if(!this.subjects[name]){
-      console.log("criando signal " + name)
       this.subjects[name] = new Subject();
     }
     return this.subjects[name];

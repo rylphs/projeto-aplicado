@@ -6,6 +6,8 @@ import { AuthService } from '../../auth/auth.service';
 import { Paths } from '../../../app.routes';
 import { Usuario } from '../../../features/usuarios/usuario.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { md5 } from 'js-md5';
+import { environment } from '../../../../environments/environment';
 
 
 
@@ -15,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './logged-area.component.html',
   styleUrl: './logged-area.component.css'
 })
-export class LoggedAreaComponent implements AfterViewInit{
+export class LoggedAreaComponent{
   breadcrumbItens!: string[]
 
   constructor(private route:ActivatedRoute, private router:Router, public sanitizer: DomSanitizer,
@@ -26,8 +28,13 @@ export class LoggedAreaComponent implements AfterViewInit{
     this.breadcrumbItens = this.route.snapshot.firstChild!.data['breadcrumb']
   }
 
-  ngAfterViewInit(){
-   // console.log();
+  get userPicture():string {
+    if(this.currentUser){
+      let base_url = environment.USER_THUMBS_URL;
+      let image = this.currentUser.thumb ? this.currentUser.thumb : "default.png";
+      return base_url + "/" +  image;
+    }
+    return "";
   }
 
   get currentUser(): Usuario | null{

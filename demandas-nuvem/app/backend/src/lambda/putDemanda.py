@@ -1,15 +1,15 @@
 import json
-from api import bad_request_msg,  success_msg
-from usuario import UsuarioService
+from api import bad_request_msg, unauthorized_msg, success_msg
+from demanda import DemandaService
 
 def lambda_handler(event, context):
     if (not "payload" in event):
         return bad_request_msg("Dados insuficientes")
     
     payload = event['payload']
-    service = UsuarioService()
+    service = DemandaService()
     try:
-        result = service.insert_user(payload["nome"], payload["email"], payload["role"], payload["senha"])
+        result = service.update_demanda(payload)
     except Exception as error:
         return bad_request_msg(str(error))
     

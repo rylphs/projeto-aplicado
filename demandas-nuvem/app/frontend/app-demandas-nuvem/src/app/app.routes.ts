@@ -6,6 +6,7 @@ import { ListaUsuariosComponent } from './features/usuarios/lista-usuarios/lista
 import { AdicionarUsuarioComponent } from './features/usuarios/adicionar-usuario/adicionar-usuario.component';
 import { ListaDemandasComponent } from './features/demandas/lista-demandas/lista-demandas.component';
 import { CriarDemandaComponent } from './features/demandas/criar-demanda/criar-demanda.component';
+import { PerfilComponent } from './features/usuarios/perfil/perfil.component';
 
 export const Paths = {
   LOGIN: "login",
@@ -19,6 +20,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'app', component: LoggedAreaComponent, children: [
     {path:"", redirectTo:"usuarios", pathMatch:'full'},
+    {path: 'perfil', component: PerfilComponent},
     {path: 'usuarios', component: ListaUsuariosComponent,
       data:{"titulo": "Usuários", breadcrumb: ["Usuários"]}},
     {path: 'usuarios/novo', component: AdicionarUsuarioComponent,

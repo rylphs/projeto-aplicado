@@ -29,7 +29,6 @@ export class ListaDemandasComponent {
   constructor(private demandaService: DemandaService, private snackbar: MatSnackBar,
     private router: Router, private route: ActivatedRoute, private messageService: MessageService) {
     this.demandaService.listarDemandas().subscribe((demandas) => {
-      console.log(demandas)
       this.demandas = demandas;
       this.datasource = new MatTableDataSource(this.demandas);
     });
@@ -41,7 +40,6 @@ export class ListaDemandasComponent {
   loadDemandas() {
     this.demandaService.listarDemandas().subscribe((demandas) => {
       this.demandas = demandas;
-      console.log(demandas);
       this.datasource.data = this.demandas;
     });
   }
@@ -57,7 +55,6 @@ export class ListaDemandasComponent {
   }
 
   novaDemanda(){
-    console.log("chamado?")
     this.demandaService.selectedDemanda.set(new Demanda());
   }
 
@@ -75,7 +72,6 @@ export class ListaDemandasComponent {
           error: () => this.showMessage({ message: `Erro ao excluir o usuário ${demanda.descricao}` })
         })
       }
-      else console.log("nao vou excluir")
     })
 
   }

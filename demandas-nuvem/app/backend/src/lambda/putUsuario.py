@@ -8,8 +8,15 @@ def lambda_handler(event, context):
     
     payload = event['payload']
     service = UsuarioService()
+    if "thumb" in payload:
+        thumb = payload["thumb"]
+    else: thumb = None
+    if "senha" in payload:
+        senha = payload["senha"]
+    else:
+        senha = None
     try:
-        result = service.update_user(payload["email"], payload["nome"], payload["role"], None)
+        result = service.update_user(payload["email"], payload["nome"], payload["role"], thumb, senha)
     except Exception as error:
         return bad_request_msg(str(error))
     

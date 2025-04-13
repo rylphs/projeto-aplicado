@@ -35,12 +35,18 @@ export class UsuarioService extends ApiService<Usuario> {
     }));
   }
 
-  public atualizarUsuario(usuario: Usuario){
-    let user_data = {
+  public atualizarUsuario(usuario: Usuario, senha: string|null){
+    let user_data:any = {
       nome: usuario.nome,
       email: usuario.email,
       role: usuario.role
     }
+
+    if(!!senha)
+      user_data.senha = senha;
+
+    if(usuario.thumb) user_data.thumb = usuario.thumb
+
     return this.doPut(environment.APIGATEWAY_ROUTES.USUARIO, {payload: user_data}).pipe(map((result)=>{
       if(result.statusCode >= 400)
         throw new Error(result.message.toString())

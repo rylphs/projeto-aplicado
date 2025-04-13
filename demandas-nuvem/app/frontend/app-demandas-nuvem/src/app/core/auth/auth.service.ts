@@ -11,22 +11,27 @@ export class AuthService extends ApiService<any>{
   private _currentUser!: Usuario | null;
   private _token!: string;
 
+  checkPassword(username:string, password:string) {
+
+  }
+
+  createSession(usuario:Usuario, token: string|null){
+    window.sessionStorage.setItem(environment.APP_USER_KEY, JSON.stringify(usuario));
+    this._currentUser = usuario;
+    if(token){
+      this._token = token;
+      window.sessionStorage.setItem(environment.APP_TOKEN_KEY, token);
+    }
+  }
+
   login(username:string, password:string){
     return this.doPost("login", {
       payload: {user: username, pwd:password }
     }).pipe(map((data) => {
       if(data.statusCode >= 400){
-        console.log("code", data.statusCode)
         throw new Error(data.message)
       }
-      console.log((data.message.usuario))
-      if(!data.message.usuario.thumb){
-        data.message.usuario.thumb = environment.USER_THUMBS_URL + "/default.png";
-      }
-      window.sessionStorage.setItem(environment.APP_TOKEN_KEY, data.message.token);
-      window.sessionStorage.setItem(environment.APP_USER_KEY, JSON.stringify(data.message.usuario));
-      this._currentUser = data.message.usuario;
-      this._token = data.message.token;
+      this.createSession(data.message.usuario, data.message.token)
       return data.message
     }))
   }
