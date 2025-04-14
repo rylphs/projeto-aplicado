@@ -17,7 +17,11 @@ export class UsuarioService extends ApiService<Usuario> {
   public listarUsuarios(){
     let userList = this.doGetAll(environment.APIGATEWAY_ROUTES.USUARIO);
     return userList.pipe(map((result)=>{
-      return result.message.map((obj:Usuario) => Usuario.fromDadosUsuario(obj))
+      console.log(result)
+      if(result.statusCode < 400){
+        result.message = result.message.map((obj:Usuario) => Usuario.fromDadosUsuario(obj))
+      }
+      return result;
     }));
   }
 
@@ -28,7 +32,7 @@ export class UsuarioService extends ApiService<Usuario> {
       role: usuario.role,
       senha: senha
     }
-    return this.doPost(environment.APIGATEWAY_ROUTES.USUARIO, {payload: user_data}).pipe(map((result)=>{
+    return this.doPost(environment.APIGATEWAY_ROUTES.USUARIO, user_data).pipe(map((result)=>{
       if(result.statusCode >= 400)
         throw new Error(result.message.toString())
       return result.message;
@@ -47,7 +51,7 @@ export class UsuarioService extends ApiService<Usuario> {
 
     if(usuario.thumb) user_data.thumb = usuario.thumb
 
-    return this.doPut(environment.APIGATEWAY_ROUTES.USUARIO, {payload: user_data}).pipe(map((result)=>{
+    return this.doPut(environment.APIGATEWAY_ROUTES.USUARIO, user_data).pipe(map((result)=>{
       if(result.statusCode >= 400)
         throw new Error(result.message.toString())
       return result.message;

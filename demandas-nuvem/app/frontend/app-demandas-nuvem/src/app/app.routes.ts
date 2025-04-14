@@ -30,8 +30,8 @@ export const routes: Routes = [
     {path: 'demandas', component: ListaDemandasComponent,
           data:{"titulo": "Demandas", breadcrumb: ["Demandas"]}},
     {path: 'demandas/nova', component: CriarDemandaComponent,
-      data:{"titulo": "Adicionar Usuário", breadcrumb: ["Usuários", "Adicionar"]}},
+      data:{"titulo": "Adicionar Usuário", breadcrumb: ["Demandas", "Adicionar"]}},
     {path: 'demandas/editar/:id', component: CriarDemandaComponent,
-        data:{"titulo": "Editar Usuário", breadcrumb: ["Usuários", "Editar"]}},
+        data:{"titulo": "Editar Usuário", breadcrumb: ["Demandas", "Editar"]}},
   ]},
 ];

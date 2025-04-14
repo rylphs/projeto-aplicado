@@ -22,25 +22,27 @@ import { Demanda } from '../demanda-model';
 })
 export class ListaDemandasComponent {
   demandas!: Demanda[];
-  datasource: any = "";
+  datasource!: any;
   displayedColumns: string[] = ['cliente', 'descricao', 'tecnico', 'gestor', 'actions'];
   readonly dialog = inject(MatDialog);
 
   constructor(private demandaService: DemandaService, private snackbar: MatSnackBar,
     private router: Router, private route: ActivatedRoute, private messageService: MessageService) {
-    this.demandaService.listarDemandas().subscribe((demandas) => {
-      this.demandas = demandas;
-      this.datasource = new MatTableDataSource(this.demandas);
-    });
+    this.loadDemandas();
     messageService.getSubject("demandas").subscribe({
       next: this.showMessage.bind(this), error: this.showError.bind(this)
     })
   }
 
   loadDemandas() {
-    this.demandaService.listarDemandas().subscribe((demandas) => {
-      this.demandas = demandas;
-      this.datasource.data = this.demandas;
+    this.demandaService.listarDemandas().subscribe((result) => {
+      if(result.statusCode < 400){
+        this.demandas = result.message;
+      }
+      if(!this.datasource){
+        this.datasource = new MatTableDataSource(this.demandas);
+      }
+      else this.datasource.data = this.demandas;
     });
   }
 
@@ -69,7 +71,7 @@ export class ListaDemandasComponent {
 
             this.loadDemandas();
           },
-          error: () => this.showMessage({ message: `Erro ao excluir o usuário ${demanda.descricao}` })
+          error: (m) => this.showMessage({ message: `Erro ao excluir a demanda ${m}` })
         })
       }
     })

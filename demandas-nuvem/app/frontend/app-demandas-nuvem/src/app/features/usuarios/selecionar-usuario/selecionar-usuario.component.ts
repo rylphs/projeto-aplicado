@@ -38,14 +38,17 @@ export class SelecionarUsuarioComponent {
   usuarios!: Usuario[];
   usuarioSelecionado!:Usuario;
 
-
-
   constructor(private usuarioService: UsuarioService){
     let role = this.data.role;
-    usuarioService.listarUsuarios().subscribe((user_data) =>{
+    usuarioService.listarUsuarios().subscribe((response) =>{
+      if(response.statusCode < 400){
+        this.usuarios = response.message;
+      } else {
+        this.usuarios = [];
+      }
       if(role){
-        this.usuarios = user_data.filter(usuario => usuario.role == role)
-      } else this.usuarios = user_data;
+        this.usuarios = this.usuarios.filter(usuario => usuario.role == role)
+      }
     });
   }
 

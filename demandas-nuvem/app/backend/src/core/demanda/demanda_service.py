@@ -30,8 +30,10 @@ class DemandaService(Connection):
         usuarios = user_connection.to_list(user_connection.find_all())
         demandas = self.to_list(self.find_all())
         for demanda in demandas:
-            gestor = next(filter(lambda u: u["email"] == demanda["gestor"], usuarios ), None)
-            tecnico = next(filter(lambda u: u["email"] == demanda["tecnico"], usuarios ), None)
+            if "gestor" in demanda:
+                gestor = next(filter(lambda u: u["email"] == demanda["gestor"], usuarios ), None)
+            if "tecnico" in demanda:
+                tecnico = next(filter(lambda u: u["email"] == demanda["tecnico"], usuarios ), None)
             if gestor:
                 gestor["_id"] = str(gestor["_id"])
                 demanda["gestor"] = gestor

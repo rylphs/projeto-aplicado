@@ -29,10 +29,7 @@ export class ListaUsuariosComponent {
 
   constructor(private usuarioService:UsuarioService, private snackbar: MatSnackBar,
     messageService: MessageService, private router:Router, private route:ActivatedRoute){
-    usuarioService.listarUsuarios().subscribe((usuarios)=>{
-      this.usuarios = usuarios;
-      this.datasource = new MatTableDataSource(this.usuarios);
-    });
+    this.loadUsuarios();
     this._mensagens = messageService.getSubject("usuarios");
 
     messageService.getSubject("usuarios").subscribe({
@@ -40,9 +37,14 @@ export class ListaUsuariosComponent {
   }
 
   loadUsuarios(){
-    this.usuarioService.listarUsuarios().subscribe((usuarios)=>{
-      this.usuarios = usuarios;
-      this.datasource.data = this.usuarios;
+    this.usuarioService.listarUsuarios().subscribe((result)=>{
+      if(result.statusCode < 400){
+        this.usuarios = result.message;
+      }
+      else this.usuarios = [];
+      if(this.datasource)
+        this.datasource.data = this.usuarios;
+      else this.datasource = new MatTableDataSource(this.usuarios);
     });
   }
 

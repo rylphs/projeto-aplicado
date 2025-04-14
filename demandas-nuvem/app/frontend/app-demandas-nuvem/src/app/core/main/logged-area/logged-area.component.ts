@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { ActivatedRoute, RouterOutlet, RouterLink, RouterLinkActive, Router, ChildActivationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Paths } from '../../../app.routes';
 import { Usuario } from '../../../features/usuarios/usuario.model';
@@ -17,7 +17,7 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './logged-area.component.html',
   styleUrl: './logged-area.component.css'
 })
-export class LoggedAreaComponent{
+export class LoggedAreaComponent {
   breadcrumbItens!: string[]
 
   constructor(private route:ActivatedRoute, private router:Router, public sanitizer: DomSanitizer,
@@ -25,7 +25,13 @@ export class LoggedAreaComponent{
     if(!authService.isLogged()){
       this.router.navigate([Paths.LOGIN]);
     }
-    this.breadcrumbItens = this.route.snapshot.firstChild!.data['breadcrumb']
+    //console.log(this.route.snapshot.firstChild!.data);
+    this.router.events.subscribe((event)=>{
+      if(event instanceof ChildActivationEnd){
+        this.breadcrumbItens = this.route.snapshot.firstChild!.data['breadcrumb'];
+      }
+    });
+
   }
 
   get userPicture():string {

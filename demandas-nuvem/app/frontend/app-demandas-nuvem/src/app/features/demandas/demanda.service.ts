@@ -15,14 +15,11 @@ export class DemandaService extends ApiService<Demanda>{
   }
 
   public listarDemandas(){
-     let userList = this.doGetAll(environment.APIGATEWAY_ROUTES.DEMANDA);
-        return userList.pipe(map((result)=>{
-          return result.message;
-        }));
+     return this.doGetAll(environment.APIGATEWAY_ROUTES.DEMANDA);
   }
 
   criarDemanda(demanda:Demanda){
-    return this.doPost(environment.APIGATEWAY_ROUTES.DEMANDA, {payload: demanda}).pipe(map((result)=>{
+    return this.doPost(environment.APIGATEWAY_ROUTES.DEMANDA, demanda).pipe(map((result)=>{
           if(result.statusCode >= 400)
             throw new Error(result.message.toString())
           return result.message;
@@ -30,7 +27,7 @@ export class DemandaService extends ApiService<Demanda>{
   }
 
   atualizarDemanda(demanda:Demanda){
-    return this.doPut(environment.APIGATEWAY_ROUTES.DEMANDA, {payload: demanda}).pipe(map((result)=>{
+    return this.doPut(environment.APIGATEWAY_ROUTES.DEMANDA, demanda).pipe(map((result)=>{
           if(result.statusCode >= 400)
             throw new Error(result.message.toString())
           return result.message;
@@ -38,6 +35,11 @@ export class DemandaService extends ApiService<Demanda>{
   }
 
   excluirDemanda(demanda: Demanda){
-     return this.doDelete(`${environment.APIGATEWAY_ROUTES.DEMANDA}?id=${demanda._id}`);
+     return this.doDelete(environment.APIGATEWAY_ROUTES.DEMANDA, {id: demanda._id}).pipe(map((result)=>{
+      console.log(result)
+      if(result.statusCode >= 400)
+        throw new Error(result.message.toString())
+      return result.message;
+    }));
   }
 }
