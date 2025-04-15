@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-lista-usuarios',
-  imports: [MatTableModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule, RouterLink],
+  imports: [MatTableModule, MatInputModule, MatFormFieldModule, MatIconModule, MatButtonModule],
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.css'
 })

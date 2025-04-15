@@ -1,0 +1,12 @@
+#titulo {
+  padding: 10px;
+  margin: 5px;
+  background-color: #1469C0;
+  color: white;
+  font-weight: bold;
+}
+
+#campos {
+  display: flex;
+  flex-direction: column;
+}

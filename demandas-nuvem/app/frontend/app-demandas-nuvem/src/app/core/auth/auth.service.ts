@@ -26,7 +26,7 @@ export class AuthService extends ApiService<any>{
 
   login(username:string, password:string){
     return this.doPost("login", {
-      payload: {user: username, pwd:password }
+      user: username, pwd:password
     }).pipe(map((data) => {
       if(data.statusCode >= 400){
         throw new Error(data.message)

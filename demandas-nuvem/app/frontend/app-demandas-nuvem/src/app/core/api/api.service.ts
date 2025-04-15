@@ -31,6 +31,10 @@ export class ApiService<T> {
     return this.client.get(`${this.API_URL}/${path}`);
   }
 
+  protected getById(path: string, id: string): Observable<GetCallResultType<T>> {
+    return this.client.get<GetCallResultType<T>>(`${this.API_URL}/${path}?id=${id}`);
+  }
+
   protected doGetAll(path: string): Observable<ListResult<T>> {
     return this.client.get<ListResult<T>>(`${this.API_URL}/${path}?token=${this.getToken()}`);
   }

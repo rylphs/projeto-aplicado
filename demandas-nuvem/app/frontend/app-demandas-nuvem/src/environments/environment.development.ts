@@ -4,7 +4,8 @@ export const environment = {
   APIGATEWAY_ROUTES: {
     LOGIN: "login",
     USUARIO: "usuarios",
-    DEMANDA: "demandas"
+    DEMANDA: "demandas",
+    SERVICOS: "servicos"
   },
   APP_TOKEN_KEY: "token",
   APP_USER_KEY: "user"

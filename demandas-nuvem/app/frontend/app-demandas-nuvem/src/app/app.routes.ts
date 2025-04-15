@@ -7,15 +7,21 @@ import { AdicionarUsuarioComponent } from './features/usuarios/adicionar-usuario
 import { ListaDemandasComponent } from './features/demandas/lista-demandas/lista-demandas.component';
 import { CriarDemandaComponent } from './features/demandas/criar-demanda/criar-demanda.component';
 import { PerfilComponent } from './features/usuarios/perfil/perfil.component';
+import { PreencherDemandaComponent } from './features/demandas/preencher-demanda/preencher-demanda.component';
+import { AdicionarServicoComponent } from './features/demandas/adicionar-servico/adicionar-servico.component';
 
 export const Paths = {
   LOGIN: "login",
   MAIN: "app",
   LISTA_USUARIOS: "usuarios",
-  LISTA_DEMANDAS: "demandas"
+  LISTA_DEMANDAS: "demandas",
+  NAO_AUTORIZADO: ""
 }
 
 export const routes: Routes = [
+  {path:"formulario", component: PreencherDemandaComponent},
+  {path:"formulario/servico", component: AdicionarServicoComponent},
+
   {path:"", redirectTo:"app", pathMatch:"full"},
   {path: 'login', component: LoginComponent},
   {path: 'app', component: LoggedAreaComponent, children: [

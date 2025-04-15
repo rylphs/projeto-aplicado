@@ -2,21 +2,38 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Paths } from '../../app.routes';
+import { UserRole } from '../../features/usuarios/usuario.model';
+
+
+const AUTH_MAP = {
+  "usuarios": {
+      "GET": ["ADMIN", "GESTOR", "TECNICO"],
+      "PUT": ["ADMIN"],
+      "DELETE": ["ADMIN"],
+      "POST": ["ADMIN"]
+  },
+  "demandas": {
+      "GET": ["ADMIN", "GESTOR", "TECNICO"],
+      "PUT": ["GESTOR"],
+      "DELETE": ["GESTOR"],
+      "POST": ["GESTOR"]
+  }
+}
 
 export const hasRoleGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router);
   const authService: AuthService = inject(AuthService);
 
-  /*if(!authService.isLoggedIn()){
-    authService.setRedirect(state.url);
-    return router.navigate([Paths.LOGIN]);
+  if(!authService.isLogged()){
+    router.navigate([Paths.LOGIN]);
   }
 
-  const userRole: UserRole[] = authService.getUserRole();
-  const expectedRoles: Roles[] = route.data['roles'];
 
-  const hasRole: boolean = expectedRoles.some((role) => userRole.includes(role));
+  const userRole = authService.currentUser?.role;
+  const expectedRoles: String[] = route.data['roles'];
 
-  return hasRole || router.navigate([Paths.NAO_AUTORIZADO]);*/
+  const hasRole: boolean = userRole ?  expectedRoles.includes(userRole) : false;
+
+  return hasRole || router.navigate([Paths.NAO_AUTORIZADO]);
   return true;
 };

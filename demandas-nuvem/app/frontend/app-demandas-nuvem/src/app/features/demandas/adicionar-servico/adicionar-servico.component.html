@@ -1,0 +1,15 @@
+<div id="titulo">Formulário de Demandas Multicloud - Adicionar {{servico.label}}</div>
+
+<div id="campos">
+  @for(campo of servico.campos; track campo){
+    @if(campo.render.element == "input"){
+      <mat-form-field>
+        <mat-label>{{campo.label}}</mat-label>
+        <input name="{{campo.nome}}" matInput [(ngModel)]="campo.value">
+      </mat-form-field>
+    }
+  }
+</div>
+
+<button mat-flat-button [routerLink]="['/formulario']">Adicionar</button>
+<button mat-flat-button [routerLink]="['/formulario']">Cancelar</button>

@@ -1,0 +1,312 @@
+[
+ {"nome": "servidor", "label": "Servidor", "descricao": "Representa um recurso computacional. Pode ser referente a um servidor em seu ambiente on premisses a ser migrado, ou mesmo uma necessidade de um recurso na nuvem.",
+"campos": [
+        {
+            "nome": "ambiente",
+            "label": "Ambiente de uso",
+            "descricao": "Selecione o ambiente de uso",
+            "ajuda": "Informe qual o ambiente de uso do serviço.",
+            "obrigatorio": true,
+            "default": "Desenvolvimento",
+            "tipoCampo": {
+                "tipo": "combobox",
+                "dominio": [
+                    "Desenvolvimento",
+                    "Homologação",
+                    "Produção",
+                    "Teste",
+                    "Validação",
+                    "Outro"
+                ]
+            }
+        },
+		{
+            "nome": "identificacao",
+            "label": "Identificação",
+            "descricao": "Informe a identificação do servidor",
+            "ajuda": "Descrição que identifica o servidor.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "texto",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "tipo_servidor",
+            "label": "Tipo de servidor",
+            "descricao": "Selecione o tipo de servidor",
+            "ajuda": "Selecione qual o tipo de servidor, se físico (bare metal) ou virtual.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "combobox",
+                "dominio": [
+                    "Físico",
+                    "Virtual"
+                ]
+            }
+        },
+        {
+            "nome": "cpu",
+            "label": "Núcleos CPU",
+            "descricao": "Informe a quantidade de núcleos",
+            "ajuda": "Quantidade de núcleos do servidor.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "memoria",
+            "label": "Memória em GB",
+            "descricao": "Informe a quantidade de memória em GB",
+            "ajuda": "Quantidade de memória do servidor.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "disco_so",
+            "label": "Tamanho disco SO",
+            "descricao": "Informe o tamanho do disco SO",
+            "ajuda": "Tamanho do disco do Sistema Operacional (SO) do servidor.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "tipo_disco_so",
+            "label": "Tipo disco SO",
+            "descricao": "Selecione o tipo do disco do Sistema Operacional",
+            "ajuda": "Tipo do disco do Sistema Operacional (SO) do servidor.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "combobox",
+                "dominio": [
+                    "HDD",
+                    "SSD"
+                ]
+            }
+        },
+        {
+            "nome": "tipo_processamento",
+            "label": "Tipo de processamento",
+            "descricao": "Selecione",
+            "ajuda": "Unidade Central de Processamento (CPU) é indicado para o gerenciar o sistema e suas tarefas, hardware e periféricos, já Unidade de Processamento Gráfico (GPU) é especializada em execução de tarefas em paralelo como computação gráfica, edição de vídeo, machine learning.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "combobox",
+                "dominio": [
+                    "CPU",
+                    "GPU"
+					]
+				}
+        },
+        {
+            "nome": "quantidade_nucleos",
+            "label": "Quantidade de núcleos",
+            "descricao": "Informe a quantidade de núcleos físicos do processador",
+            "ajuda": "Quantidade de núcleos físicos do processador do servidor.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "capacidade_processamento",
+            "label": "Capacidade de processamento",
+            "descricao": "Informe a capacidade de processamento em GHz",
+            "ajuda": "Capacidade de processamento em GHz do servidor",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "so",
+            "label": "Sistema Operacional",
+            "descricao": "Selecione o sistema operacional do servidor",
+            "ajuda": "Selecione o Sistema Operacional (SO) que mais se adeque ao servidor. Caso nenhuma opção listada atenda, informe qual o SO e sua respectiva versão na caixa de texto. Por exemplo: Windows Server 2016, Linux Ubuntu 22.04, Linux Red Hat 7. OBS: Quanto mais detalhada for a informação, melhor para a elaboração do projeto.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "combobox",
+                "dominio": [
+                    "Linux",
+                    "Linux Server com SQL Server Standart",
+                    "Linux Server com SQL Server WEB",
+                    "Linux Server com SQL Server Enterprise",
+                    "Red Hat Enterprise Linux",
+                    "Red Hat Enterprise Linux com HA",
+                    "Red Hat Enterprise Linux com SQL Server Standart",
+                    "Red Hat Enterprise Linux com SQL Server Web",
+                    "Red Hat Enterprise Linux com SQL Server Enterprise",
+                    "Red Hat Enterprise Linux com HA e SQL Server Standart",
+                    "Red Hat Enterprise Linux com HA e SQL Server Enterprise",
+                    "SUSE Linux Enterprise Server",
+                    "Ubuntu Pro",
+                    "Windows Server",
+                    "Windows Server com SQL Server Standart",
+                    "Windows Server com SQL Server WEB",
+                    "Windows Server com SQL Server Enterprise"
+					]
+				}
+        },
+        {
+            "nome": "servico_hospedado",
+            "label": "Serviço hospedado",
+            "descricao": "Informe o nome do serviço hospedado no servidor",
+            "ajuda": "Informe o serviço hospedado no servidor, por exemplo: aplicação (implantação tradicional); host para contêineres; DNS; Diretório; File Server; Cluster Hadoop; Cluster Spark; etc. Quando for o caso, informe a versão também.",
+            "obrigatorio": false,
+            "tipoCampo": {
+                "tipo": "texto",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "disponibilidade_servidor",
+            "label": "Disponibilidade do servidor",
+            "descricao": "Informe a disponibilidade do servidor em %",
+            "ajuda": "Percentual de disponibilidade do servidor no mês",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "usa_licenca",
+            "label": "Utiliza licença?",
+            "descricao": null,
+            "ajuda": "Selecione SIM para indicar o uso de licença de software OU se tiver interesse em utilizar.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "boleano",
+                "dominio": [
+                    "Sim",
+                    "Não"
+                ]
+            }
+        },
+        {
+            "nome": "descricao_licenca",
+            "label": "Descrição da licença",
+            "descricao": "Informe a licença de software",
+			"ajuda": "Informe a licença de software do sistema operacional do servidor.",
+            "obrigatorio": false,
+            "tipoCampo": {
+                "tipo": "texto",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "tem_redundancia",
+            "label": "Possui redundância?",
+            "descricao": null,
+            "ajuda": "Selecione SIM para indicar o uso de redundância OU se tiver interesse em utilizar para garantir alta disponibilidade.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "boleano",
+                "dominio": [
+                    "Sim",
+                    "Não"
+                ]
+            }
+        },
+        {
+            "nome": "tipo_redundancia",
+            "label": "Tipo de redundância",
+            "descricao": "Informe qual o tipo de redundância utilizado",
+            "ajuda": "Informe como e qual cluster o tipo de redundância utilizado, por exemplo Cluster1.",
+            "obrigatorio": false,
+            "tipoCampo": {
+                "tipo": "texto",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "desempenho_rede",
+            "label": "Desempenho de rede",
+            "descricao": "Informe o desempenho de rede em GB",
+            "ajuda": "Desempenho de rede em GB.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "numerico",
+                "dominio": null
+            }
+        },
+        {
+            "nome": "tipo_locacao_instancia",
+            "label": "Tipo de Locação de Instância",
+            "descricao": "Selecione o tipo da instância do servidor",
+            "ajuda": "Selecione o tipo de locação na qual deseja executar suas instâncias do servidor.",
+            "obrigatorio": true,
+            "tipoCampo": 
+				{
+                "tipo": "combobox",
+                "dominio": [
+                    "Instâncias compartilhadas",
+                    "Instâncias dedicadas",
+                    "Hosts dedicados",
+                    "Outro"
+ 					]
+				}
+		},
+		{
+            "nome": "tipo_acesso",
+            "label": "Tipo de acesso à rede",
+            "descricao": "Selecione a exposição",
+            "ajuda": "Selecione o tipo de acesso do servidor à rede.",
+            "obrigatorio": true,
+            "tipoCampo": 
+				{
+                "tipo": "combobox",
+                "dominio": 
+					[
+                    "Internet",
+                    "Sem exposição - Rede local da Nuvem",
+                    "VPN"
+					]
+				}
+		},
+		{		
+            "nome": "discos_anexados",
+            "label": "Possui discos anexados?",
+            "descricao": null,
+            "ajuda": "Este campo é indicado para utilizar quando há necessidade de detalhamento e/ou complementação de alguma informação referente a um campo anterior ou qualquer outra informação que tenha relevância no projeto.",
+            "obrigatorio": true,
+            "tipoCampo": {
+                "tipo": "boleano",
+                "dominio": [
+                    "Sim",
+                    "Não"
+                ]
+			}
+		},
+		{
+            "nome": "observacao",
+            "label": "Observação",
+            "descricao": "Complemente aqui alguma informação que julgue necessária",
+            "ajuda": "Este campo é indicado para utilizar quando há necessidade de detalhamento e/ou complementação de alguma informação referente a um campo anterior ou qualquer outra informação que tenha relevância no projeto.",
+            "obrigatorio": false,
+            "tipoCampo": {
+                "tipo": "textoarea",
+                "dominio": null
+				}
+		}
+	]},
+ {"nome": "banco", "label": "Banco de Dados", "descricao": "Representa um recurso de armazenamento de informações. Pode ser referente a um banco em ambiente on orenusses, ou uma necessidade de banco na nuvem."},
+ {"nome": "conteiner", "label": "Contêniner", "descricao": "Representa um ambiente isolado para execução de software. Pode ser referente a um container a ser migrado ou uma necessidade de containers na nuvem."},
+ {"nome": "armazenamento", "label": "Armazenamento", "descricao": "Representa um recurso de armazenamento, seja sistema de arquivos ou objetos"},
+ {"nome": "vpn", "label": "VPN", "descricao": "Representa um rede privada virtual, usada para acessar de forma segura o ambiente da nuvem a partir de seu ambiente local"},
+ {"nome": "balanceador", "label": "Balanceador de Carga", "descricao": "O balanceador de carga permite distribuir a carga das requisições em um grupo de recursos."},
+ {"nome": "backup", "label": "Backup", "descricao": "Serviço que permite criar cópias de seus dados, oferecendo redundância em caso de problemas"},
+ {"nome": "cdn", "label": "CDN", "descricao": "É uma infraestrutura de servidores que armazenam conteúdo em cache para que seja entregue mais rapidamente aos usuários."},
+ {"nome": "waf", "label": "Web Application Firewall", "descricao": "É uma tecnologia de segurança que protege aplicativos web de ataques"},
+ {"nome": "monitoracao", "label": "CDN", "descricao": "São um conjunto de recursos que permitem monitorar outros recursos."}
+]

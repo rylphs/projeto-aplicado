@@ -18,6 +18,10 @@ export class DemandaService extends ApiService<Demanda>{
      return this.doGetAll(environment.APIGATEWAY_ROUTES.DEMANDA);
   }
 
+  public getDemanda(id:string){
+    return this.getById("demanda", id);
+  }
+
   criarDemanda(demanda:Demanda){
     return this.doPost(environment.APIGATEWAY_ROUTES.DEMANDA, demanda).pipe(map((result)=>{
           if(result.statusCode >= 400)

@@ -43,7 +43,9 @@ class DemandaService(Connection):
         return demandas
 
     def get_demanda_by_id(self, id:str):
-        return self.find_one(id)
+        demanda = self.find_one(id)
+        demanda["_id"] = id
+        return demanda
 
     def insert_demanda(self, demanda: Demanda):
        data = self.insert_one(demanda)
