@@ -11,7 +11,7 @@ export enum Ambiente {
   PRODUCAO = "Produção"
 }
 
-export type OpcoesTipoCampo = "combobox" | "texto" | "numerico" | "boleano";
+export type OpcoesTipoCampo = "combobox" | "texto" | "numerico" | "boleano" | "textoarea";
 
 export type TipoCampo = {
   "tipo": OpcoesTipoCampo,
@@ -24,6 +24,7 @@ export class Servico {
   label!: string;
   descricao!: string;
   campos: Campo[] = [];
+  camposResumo!: string[];
 
   static fromObj(obj: any): Servico {
     const servico:any = new Servico();
@@ -33,6 +34,8 @@ export class Servico {
       }
       else servico[prop] = obj[prop];
     }
+    servico.camposResumo = obj["resumo"] || [];
+
     return servico;
   }
 
@@ -40,6 +43,7 @@ export class Servico {
     const instancia = new InstanciaServico();
     instancia.idServico = this._id;
     instancia.label = this.label;
+    instancia.camposResumo = this.camposResumo;
     for(let i in this.campos){
       let instanciaCampo = this.campos[i].criarInstancia();
       instancia.campos.push(instanciaCampo);
@@ -51,14 +55,31 @@ export class Servico {
 
 export type Render = {
   element: string;
-  tipo: OpcoesTipoCampo;
+  tipo: string;
 }
 
 const elementMap = {
   "texto": "input",
   "numerico": "input",
   "combobox": "combobox",
-  "boleano": "checkbox"
+  "boleano": "checkbox",
+  "textoarea": "textarea"
+}
+
+const typeMap = {
+  "texto": "text",
+  "numerico": "number",
+  "combobox": "",
+  "boleano": "",
+  "textoarea": ""
+}
+
+const widthMap = {
+  "texto": 800,
+  "numerico": 300,
+  "combobox": 300,
+  "boleano": 300,
+  "textoarea": 800
 }
 
 export class Campo {
@@ -66,19 +87,24 @@ export class Campo {
   label!: string;
   tipoCampo!: TipoCampo;
   obrigatorio!: boolean;
-  valorDefault!: string;
+  default!: string;
+  ajuda!: string;
 
 
   criarInstancia():InstanciaCampo {
     const instancia = new InstanciaCampo();
     instancia.nome = this.nome;
-    instancia.value = this.valorDefault;
+    instancia.value = this.default;
     instancia.label = this.label;
     instancia.obrigatorio = this.obrigatorio;
+    instancia.ajuda = this.ajuda;
+    instancia.dominio = this.tipoCampo.dominio || [];
     let tipo = this.tipoCampo.tipo;
+    console.log(tipo, elementMap[tipo])
+    instancia.width = widthMap[tipo];
     instancia.render = {
       element: elementMap[tipo],
-      tipo: tipo
+      tipo: typeMap[tipo]
     };
     return instancia;
   }
@@ -86,7 +112,7 @@ export class Campo {
   static fromObj(obj: any): Campo{
     const campo:any = new Campo();
     for(let prop in campo){
-      campo[prop] = obj[prop] || campo[prop];
+      campo[prop] = obj[prop];
     }
     return campo;
   }
@@ -98,13 +124,20 @@ export class InstanciaCampo {
   value!: string;
   render!: Render;
   obrigatorio!:boolean;
+  width!: number;
+  height!: number;
+  ajuda!:string;
+  dominio: string[] = [];
 }
 
 export class InstanciaServico {
+  indice!:number;
   label!:string;
   idServico!: string;
   quantidade: number = 1;
   campos: InstanciaCampo[] = [];
+  camposResumo!: string[];
+  resumo:string = "";
 }
 
 @Injectable({

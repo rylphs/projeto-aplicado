@@ -1,5 +1,7 @@
 [
- {"nome": "servidor", "label": "Servidor", "descricao": "Representa um recurso computacional. Pode ser referente a um servidor em seu ambiente on premisses a ser migrado, ou mesmo uma necessidade de um recurso na nuvem.",
+ {"nome": "servidor", "label": "Servidor", 
+ "descricao": "Representa um recurso computacional. Pode ser referente a um servidor em seu ambiente on premisses a ser migrado, ou mesmo uma necessidade de um recurso na nuvem.",
+ "resumo": ["ambiente", "cpu", "memoria"],
 "campos": [
         {
             "nome": "ambiente",
@@ -51,6 +53,7 @@
             "descricao": "Informe a quantidade de núcleos",
             "ajuda": "Quantidade de núcleos do servidor.",
             "obrigatorio": true,
+            "default": 1,
             "tipoCampo": {
                 "tipo": "numerico",
                 "dominio": null
@@ -62,6 +65,7 @@
             "descricao": "Informe a quantidade de memória em GB",
             "ajuda": "Quantidade de memória do servidor.",
             "obrigatorio": true,
+            "default": 8,
             "tipoCampo": {
                 "tipo": "numerico",
                 "dominio": null
@@ -69,10 +73,11 @@
         },
         {
             "nome": "disco_so",
-            "label": "Tamanho disco SO",
+            "label": "Tamanho disco SO (GB)",
             "descricao": "Informe o tamanho do disco SO",
             "ajuda": "Tamanho do disco do Sistema Operacional (SO) do servidor.",
             "obrigatorio": true,
+            "default": 15,
             "tipoCampo": {
                 "tipo": "numerico",
                 "dominio": null
@@ -98,6 +103,7 @@
             "descricao": "Selecione",
             "ajuda": "Unidade Central de Processamento (CPU) é indicado para o gerenciar o sistema e suas tarefas, hardware e periféricos, já Unidade de Processamento Gráfico (GPU) é especializada em execução de tarefas em paralelo como computação gráfica, edição de vídeo, machine learning.",
             "obrigatorio": true,
+            "default": "CPU",
             "tipoCampo": {
                 "tipo": "combobox",
                 "dominio": [
@@ -112,6 +118,7 @@
             "descricao": "Informe a quantidade de núcleos físicos do processador",
             "ajuda": "Quantidade de núcleos físicos do processador do servidor.",
             "obrigatorio": true,
+            "default": 1,
             "tipoCampo": {
                 "tipo": "numerico",
                 "dominio": null
@@ -174,6 +181,7 @@
             "descricao": "Informe a disponibilidade do servidor em %",
             "ajuda": "Percentual de disponibilidade do servidor no mês",
             "obrigatorio": true,
+            "default": 100,
             "tipoCampo": {
                 "tipo": "numerico",
                 "dominio": null

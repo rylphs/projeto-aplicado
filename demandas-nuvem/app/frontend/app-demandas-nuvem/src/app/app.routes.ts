@@ -20,6 +20,7 @@ export const Paths = {
 
 export const routes: Routes = [
   {path:"formulario", component: PreencherDemandaComponent},
+  {path:"formulario/:id/:step", component: PreencherDemandaComponent},
   {path:"formulario/servico", component: AdicionarServicoComponent},
 
   {path:"", redirectTo:"app", pathMatch:"full"},

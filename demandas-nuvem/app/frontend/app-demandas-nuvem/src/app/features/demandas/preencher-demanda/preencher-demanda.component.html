@@ -4,7 +4,7 @@
 <div id="sem-demanda">Demanda não encontrada</div>
 }
 @else {
-<mat-stepper #stepper>
+<mat-stepper #stepper [selectedIndex]="stepperIndex">
 
   <mat-step>
     <form class="step-form">
@@ -34,25 +34,28 @@
 
       <table mat-table [dataSource]="dataSourceServicos" class="mat-elevation-z8">
 
-        <!-- Position Column -->
         <ng-container matColumnDef="label">
           <th mat-header-cell *matHeaderCellDef> Nome </th>
           <td mat-cell *matCellDef="let element"> {{element.label}} </td>
         </ng-container>
 
-        <!-- Name Column -->
         <ng-container matColumnDef="quantidade">
           <th mat-header-cell *matHeaderCellDef> Quantidade </th>
           <td mat-cell *matCellDef="let element"> {{element.quantidade}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="resumo">
+          <th mat-header-cell *matHeaderCellDef> Resumo </th>
+          <td mat-cell *matCellDef="let element"> {{element.resumo}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Ações </th>
           <td mat-cell *matCellDef="let element" class="actions-col" >
-            <button mat-mini-fab aria-label="Editar" >
+            <button mat-mini-fab aria-label="Editar" (click)="editarServico(element)" >
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-mini-fab aria-label="Excluir" >
+            <button mat-mini-fab aria-label="Excluir" (click)="removerServico(element)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -151,7 +154,7 @@
     <div class="fill"></div>
     <div>
       <button mat-button matStepperPrevious>Anterior</button>
-      <button mat-button (click)="stepper.reset()">Solicitar</button>
+      <button mat-button (click)="salvarDemanda()">Solicitar</button>
     </div>
   </form>
   </mat-step>

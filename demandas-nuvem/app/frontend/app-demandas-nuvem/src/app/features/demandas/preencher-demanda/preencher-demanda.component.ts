@@ -27,12 +27,15 @@ export class PreencherDemandaComponent {
   dataSourceServicos!: MatTableDataSource<InstanciaServico>;
   columns = ["nome", "tipo", "actions"]
   servicos: Servico[] = [];
-  colunasServicos = ["label", "quantidade", "actions"];
+  colunasServicos = ["label", "quantidade", "resumo", "actions"];
+  stepperIndex = 0;
 
   constructor(route: ActivatedRoute, private demandaService: DemandaService,
     private servicoService: ServicoService, private router:Router){
 
     let id = route.snapshot.params["id"];
+    let step = route.snapshot.params["step"];
+    if(step) this.stepperIndex = Number.parseInt(step);
     id = "67fad77f8951ffc2c58f25e4"; //TODO remover
     this.carregarDemanda(id);
     this.carregarServicos();
@@ -70,11 +73,19 @@ export class PreencherDemandaComponent {
 
   adicionarServico(servico:Servico){
     let instancia = servico.criarInstancia();
-    console.log(instancia);
-    this.demanda.servicos.push(instancia);
 
     this.dataSourceServicos.data = this.demanda.servicos;
-    this.router.navigate(["formulario","servico"], {state: {servico:instancia}});
+    this.router.navigate(["formulario","servico"], {state: {servico:instancia, novo:true}});
+  }
+
+  editarServico(instancia:InstanciaServico){
+    this.router.navigate(["formulario","servico"], {state: {servico:instancia, novo:false}});
+  }
+
+  removerServico(instancia:InstanciaServico){
+    let indice = instancia.indice;
+    this.demanda.servicos.splice(indice, 1);
+    this.dataSourceServicos.data = this.demanda.servicos;
   }
 
   removerAnexo(anexo:Anexo){
@@ -87,5 +98,9 @@ export class PreencherDemandaComponent {
     const id = uuidv4();
     this.demanda.anexos.push({id: id, nome: file.name, tipo: file.type, file: file})
     this.dataSource.data = this.demanda.anexos;
+  }
+
+  salvarDemanda(){
+    console.log(this.demanda);
   }
 }
