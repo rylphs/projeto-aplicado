@@ -23,13 +23,21 @@ export class FileService{
     return this.client.request<any>(req);
   }
 
-   updateFile(folder:string, file: File) {
+   updateFile(api:string, folder:string, file: File) {
     const headers = new HttpHeaders({
       'Content-Type': file.type,
     });
-    let key = folder + "/" + file.name;
-    return this.client.post(this.API_URL + "/assets", {key:key}).pipe(
+    let key = (folder ? folder + "/" : "") + file.name;
+    return this.client.post(this.API_URL + "/" + api, {key:key}).pipe(
       switchMap((result:any) => this.requestUpload(result["message"], file))
     )
+  }
+
+  uploadAsset(folder:string, file:File){
+    return this.updateFile("assets", folder, file);
+  }
+
+  uploadAnexo(name:string, file:File){
+    return this.updateFile("anexos", "", file);
   }
 }

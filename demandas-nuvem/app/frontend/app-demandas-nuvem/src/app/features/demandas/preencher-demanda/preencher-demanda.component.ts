@@ -12,6 +12,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { v4 as uuidv4 } from 'uuid';
 import {MatCardModule} from '@angular/material/card';
+import { FileService } from '../../../shared/file/file.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class PreencherDemandaComponent {
   stepperIndex = 0;
 
   constructor(route: ActivatedRoute, private demandaService: DemandaService,
-    private servicoService: ServicoService, private router:Router){
+    private servicoService: ServicoService, private router:Router, private fileService:FileService){
 
     let id = route.snapshot.params["id"];
     let step = route.snapshot.params["step"];
@@ -101,6 +102,14 @@ export class PreencherDemandaComponent {
   }
 
   salvarDemanda(){
-    console.log(this.demanda);
+    const anexos = this.demanda.anexos;
+    for(let i in anexos){
+      if(anexos[i].file){
+        this.fileService.uploadAnexo(anexos[i].id, anexos[i].file).subscribe(console.log);
+        anexos[i].file = undefined;
+      }
+    }
+    this.demandaService.atualizarDemanda(this.demanda).subscribe(console.log);
+
   }
 }

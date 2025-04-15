@@ -31,11 +31,7 @@ export class DemandaService extends ApiService<Demanda>{
   }
 
   atualizarDemanda(demanda:Demanda){
-    return this.doPut(environment.APIGATEWAY_ROUTES.DEMANDA, demanda).pipe(map((result)=>{
-          if(result.statusCode >= 400)
-            throw new Error(result.message.toString())
-          return result.message;
-        }));
+    return this.doPut(environment.APIGATEWAY_ROUTES.DEMANDA, demanda);
   }
 
   excluirDemanda(demanda: Demanda){

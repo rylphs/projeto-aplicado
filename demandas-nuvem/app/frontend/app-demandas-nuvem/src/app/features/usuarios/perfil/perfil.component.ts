@@ -53,7 +53,7 @@ export class PerfilComponent {
       this.usuario.thumb = fileName;
 
       let fileToUpload = new File([blob], fileName, {type: file.type});
-      this.fileService.updateFile("user_thumbs", fileToUpload);
+      this.fileService.uploadAsset("user_thumbs", fileToUpload);
     }
     let senha = null;
 
