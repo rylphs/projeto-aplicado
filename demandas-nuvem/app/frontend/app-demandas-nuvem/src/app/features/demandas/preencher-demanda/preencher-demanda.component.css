@@ -16,6 +16,15 @@
   font-weight: bold;
 }
 
+#subtitulo {
+  padding: 10px;
+  margin: 5px;
+  background-color: #abbed1;
+  color: black;
+  font-weight: bold;
+}
+
+
 #card-servicos {
   display: flex;
   flex-direction: row;
@@ -37,4 +46,8 @@
 
 #adicionar-servico{
   margin-top: 30px;
+}
+
+.table-actions button {
+  margin-right: 10px;
 }

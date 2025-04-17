@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Demanda } from './demanda-model';
+import { Demanda, StatusDemanda } from './demanda-model';
 import { ApiService } from '../../core/api/api.service';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs';
@@ -15,7 +15,19 @@ export class DemandaService extends ApiService<Demanda>{
   }
 
   public listarDemandas(){
-     return this.doGetAll(environment.APIGATEWAY_ROUTES.DEMANDA);
+      let demandaList = this.doGetAll(environment.APIGATEWAY_ROUTES.DEMANDA);
+        return demandaList.pipe(map((result)=>{
+          console.log("demanda", result)
+          if(result.statusCode < 400){
+            result.message = result.message.map((obj:Demanda) => Demanda.fromData(obj))
+          }
+          return result;
+        }));
+  }
+
+  public gerarFormulario(demanda:Demanda){
+    demanda.status = StatusDemanda.EM_PREENCHIMENTO;
+    return this.atualizarDemanda(demanda);
   }
 
   public getDemanda(id:string){

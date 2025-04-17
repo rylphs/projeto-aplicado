@@ -6,6 +6,14 @@
   font-weight: bold;
 }
 
+#subtitulo {
+  padding: 10px;
+  margin: 5px;
+  background-color: #abbed1;
+  color: black;
+  font-weight: bold;
+}
+
 #campos {
   display: flex;
   flex-direction: row;

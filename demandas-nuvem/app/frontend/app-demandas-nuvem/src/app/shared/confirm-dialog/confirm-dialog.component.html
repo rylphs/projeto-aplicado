@@ -1,8 +1,15 @@
 <h2 mat-dialog-title>{{data.title}}</h2>
 <mat-dialog-content>
-  {{data.content}}
+  <div class="content" [innerHTML]="data.content"></div>
+
 </mat-dialog-content>
+
 <mat-dialog-actions>
+@if(data.somenteNotificacao){
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+}
+@else{
   <button mat-button (click)="cancelar()" cdkFocusInitial>Cancelar</button>
   <button mat-button (click)="confirmar()">Confirmar</button>
+}
 </mat-dialog-actions>

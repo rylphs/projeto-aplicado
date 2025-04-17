@@ -4,6 +4,9 @@
 <div id="sem-demanda">Demanda não encontrada</div>
 }
 @else {
+@if(readonly){
+  <div id="subtitulo">Essa demanda já foi preenchida. Caso necessite alterá-la, entre em contato com o gestor da demanda.</div>
+}
 <mat-stepper #stepper [selectedIndex]="stepperIndex">
 
   <mat-step>
@@ -15,11 +18,11 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input name="email" matInput [(ngModel)]="demanda.emailCliente">
+        <input [readonly]="readonly" name="email" matInput [(ngModel)]="demanda.emailCliente">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Descricao</mat-label>
-        <input name="descricao" matInput [(ngModel)]="demanda.descricao">
+        <input [readonly]="readonly" name="descricao" matInput [(ngModel)]="demanda.descricao">
       </mat-form-field>
       <div class="fill"></div>
       <div>
@@ -28,7 +31,7 @@
     </form>
   </mat-step>
 
-  <mat-step label="Adicionar Serviços">
+  <mat-step label='{{readonly? "Serviços" : "Adicionar Serviços"}}'>
     <form class="step-form">
       <h3>Serviços Adicionados</h3>
 
@@ -51,13 +54,18 @@
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Ações </th>
-          <td mat-cell *matCellDef="let element" class="actions-col" >
-            <button mat-mini-fab aria-label="Editar" (click)="editarServico(element)" >
+          <td mat-cell *matCellDef="let element" class="actions-col"  class="table-actions">
+            <button [disabled]="readonly" mat-mini-fab aria-label="Editar" (click)="editarServico(element)" >
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-mini-fab aria-label="Excluir" (click)="removerServico(element)">
+            <button [disabled]="readonly" mat-mini-fab aria-label="Excluir" (click)="removerServico(element)">
               <mat-icon>delete</mat-icon>
             </button>
+            @if(readonly){
+              <button mat-mini-fab aria-label="Excluir" (click)="editarServico(element)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            }
           </td>
         </ng-container>
 
@@ -71,6 +79,7 @@
         </tr>
       </table>
 
+      @if(! readonly){
       <div id="adicionar-servico">
       <h3>Adicionar Serviço</h3>
       <div id="card-servicos">
@@ -83,12 +92,13 @@
             <p>{{servico.descricao}}</p>
           </mat-card-content>
           <mat-card-footer>
-            <button (click)="adicionarServico(servico)" mat-button>Adicionar</button>
+            <button [disabled]="readonly" (click)="adicionarServico(servico)" mat-button>Adicionar</button>
           </mat-card-footer>
         </mat-card>
       }
       </div>
       </div>
+    }
       <div class="fill"></div>
       <div>
         <button mat-button matStepperPrevious>Anterior</button>
@@ -97,7 +107,7 @@
     </form>
   </mat-step>
 
-  <mat-step label="Anexar Arquivos">
+  <mat-step label='{{readonly? "Anexos" : "Anexar Arquivos"}}'>
     <form class="step-form">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -115,9 +125,15 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Ações </th>
         <td mat-cell *matCellDef="let element" class="actions-col" >
-          <button mat-mini-fab aria-label="Remover" (click)="removerAnexo(element)">
+          <button [disabled]="readonly" mat-mini-fab aria-label="Remover" (click)="removerAnexo(element)">
             <mat-icon>delete</mat-icon>
           </button>
+
+          @if(readonly){
+          <button mat-mini-fab aria-label="Remover" (click)="visualizarAnexo(element)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        }
         </td>
       </ng-container>
 
@@ -132,7 +148,7 @@
     </table>
     <input #csvInput hidden="true" type="file" (change)="adicionarAnexo($event)" onclick="this.value=null"/>
     <div  id="add-button">
-        <button mat-flat-button color="primary" (click)="csvInput.click()">Adicionar Arquivo</button>
+        <button [disabled]="readonly" mat-flat-button color="primary" (click)="csvInput.click()">Adicionar Arquivo</button>
     </div>
 
       <div class="fill"></div>
@@ -143,6 +159,7 @@
     </form>
   </mat-step>
 
+  @if(! readonly){
   <mat-step>
     <form class="step-form">
     <ng-template matStepLabel>Revisar e Solicitar</ng-template>
@@ -154,9 +171,10 @@
     <div class="fill"></div>
     <div>
       <button mat-button matStepperPrevious>Anterior</button>
-      <button mat-button (click)="salvarDemanda()">Solicitar</button>
+      <button [disabled]="readonly" mat-button (click)="salvarDemanda()">Solicitar</button>
     </div>
   </form>
   </mat-step>
+}
 </mat-stepper>
 }

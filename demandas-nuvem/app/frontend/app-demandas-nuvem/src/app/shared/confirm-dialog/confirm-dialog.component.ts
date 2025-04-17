@@ -14,6 +14,7 @@ export interface DialogData {
   title: string;
   content: string;
   confirm: boolean;
+  somenteNotificacao?: boolean;
 }
 
 export function confirm(dialog: MatDialog, title:string, content:string, callback:(result:any)=>any){
@@ -23,12 +24,20 @@ export function confirm(dialog: MatDialog, title:string, content:string, callbac
   dialogRef.afterClosed().subscribe(callback)
 }
 
+export function notify(dialog: MatDialog, title:string, content:string, callback:(result:any)=>any){
+  const dialogRef = dialog.open(ConfirmDialogComponent, {
+    data: {title, content, somenteNotificacao:true},
+  });
+  dialogRef.afterClosed().subscribe(callback)
+}
+
 @Component({
   selector: 'app-confirm-dialog',
   imports: [MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
-    MatDialogActions],
+    MatDialogActions,
+    MatDialogClose],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.css'
 })

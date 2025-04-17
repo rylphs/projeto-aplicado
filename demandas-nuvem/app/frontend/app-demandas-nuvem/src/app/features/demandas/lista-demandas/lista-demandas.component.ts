@@ -8,10 +8,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { confirm } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { confirm, notify } from '../../../shared/confirm-dialog/confirm-dialog.component';
 import { MessageService, MessageType } from '../../../shared/message/message.service';
 import { DemandaService } from '../demanda.service';
 import { Demanda } from '../demanda-model';
+
 
 @Component({
   selector: 'app-lista-demandas',
@@ -23,7 +24,7 @@ import { Demanda } from '../demanda-model';
 export class ListaDemandasComponent {
   demandas!: Demanda[];
   datasource!: any;
-  displayedColumns: string[] = ['cliente', 'descricao', 'tecnico', 'gestor', 'actions'];
+  displayedColumns: string[] = ['cliente', 'descricao', 'tecnico', 'gestor', 'status', 'actions'];
   readonly dialog = inject(MatDialog);
 
   constructor(private demandaService: DemandaService, private snackbar: MatSnackBar,
@@ -44,6 +45,20 @@ export class ListaDemandasComponent {
       }
       else this.datasource.data = this.demandas;
     });
+  }
+
+  gerarFormulario(demanda: Demanda){
+    const url = `http://localhost:4200/formulario/${demanda._id}`;
+    const dialogContent = `<p>Url gerada para a demanda:</p> <a href="${url}">${url}</a>.
+    <p>Informar a URL ao cliente para preenchimento.</p>`
+    this.demandaService.gerarFormulario(demanda).subscribe((response)=>{
+      console.log("formulario", response)
+      if(response.statusCode < 400){
+        notify(this.dialog, "Formulário gerado", dialogContent, (data)=>{
+          this.loadDemandas();
+        });
+      }
+    })
   }
 
   applyFilter(event: Event) {

@@ -2,8 +2,9 @@ import { InstanciaServico } from "../catalogo/servico.service";
 import { Usuario } from "../usuarios/usuario.model";
 
 
+
 export enum StatusDemanda {
-  ABERTA, EM_PREENCHIMENTO, PREENCHIDA
+  ABERTA, EM_PREENCHIMENTO,  PREENCHIDA
 }
 
 export type Anexo = {
@@ -11,6 +12,12 @@ export type Anexo = {
   nome: string;
   tipo: string;
   file?: File;
+}
+
+const StatusLabels = {
+  ABERTA: "Aberta",
+  EM_PREENCHIMENTO: "Em preenchimento",
+  PREENCHIDA: "Preenchida"
 }
 
 export class Demanda {
@@ -34,7 +41,17 @@ export class Demanda {
      demanda.gestor = data.gestor;
      demanda.status = data.status;
      demanda.anexos = data.anexos || [];
+     demanda.servicos = data.servicos || [];
      return demanda;
+  }
+
+  get statusLabel():string {
+    console.log(this.status)
+    if(!this.status){
+      return StatusLabels.ABERTA;
+    }
+    let key = StatusDemanda[this.status]
+    return StatusLabels[key as keyof typeof StatusLabels];
   }
 }
 

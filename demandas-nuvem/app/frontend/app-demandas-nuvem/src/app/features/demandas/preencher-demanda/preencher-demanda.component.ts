@@ -7,12 +7,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
-import { Anexo, Demanda } from '../demanda-model';
+import { Anexo, Demanda, StatusDemanda } from '../demanda-model';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { v4 as uuidv4 } from 'uuid';
 import {MatCardModule} from '@angular/material/card';
 import { FileService } from '../../../shared/file/file.service';
+import { notify } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -30,14 +32,15 @@ export class PreencherDemandaComponent {
   servicos: Servico[] = [];
   colunasServicos = ["label", "quantidade", "resumo", "actions"];
   stepperIndex = 0;
+  readonly dialog = inject(MatDialog);
 
   constructor(route: ActivatedRoute, private demandaService: DemandaService,
-    private servicoService: ServicoService, private router:Router, private fileService:FileService){
+    private servicoService: ServicoService, private router:Router,
+    private fileService:FileService){
 
     let id = route.snapshot.params["id"];
     let step = route.snapshot.params["step"];
     if(step) this.stepperIndex = Number.parseInt(step);
-    id = "67fad77f8951ffc2c58f25e4"; //TODO remover
     this.carregarDemanda(id);
     this.carregarServicos();
   }
@@ -53,11 +56,12 @@ export class PreencherDemandaComponent {
       this.demandaService.getDemanda(id).subscribe((response)=>{
         if (response.statusCode < 400){
           this.demanda = Demanda.fromData(response.message);
-          this.demanda.anexos = [];
+          this.demanda.anexos = this.demanda.anexos || [];
           this.dataSource = new MatTableDataSource(this.demanda.anexos);
           this.dataSourceServicos = new MatTableDataSource(this.demanda.servicos)
 
           this.demandaService.selectedDemanda.set(this.demanda);
+          console.log(this.demanda);
         }
       })
     }
@@ -74,13 +78,13 @@ export class PreencherDemandaComponent {
 
   adicionarServico(servico:Servico){
     let instancia = servico.criarInstancia();
-
+    instancia.indice = this.demanda.servicos.length;
     this.dataSourceServicos.data = this.demanda.servicos;
-    this.router.navigate(["formulario","servico"], {state: {servico:instancia, novo:true}});
+    this.router.navigate(["formulario",this.demanda._id,"servico"], {state: {servico:instancia, novo:true}});
   }
 
   editarServico(instancia:InstanciaServico){
-    this.router.navigate(["formulario","servico"], {state: {servico:instancia, novo:false}});
+    this.router.navigate(["formulario",this.demanda._id, "servico"], {state: {servico:instancia, novo:false}});
   }
 
   removerServico(instancia:InstanciaServico){
@@ -109,7 +113,34 @@ export class PreencherDemandaComponent {
         anexos[i].file = undefined;
       }
     }
-    this.demandaService.atualizarDemanda(this.demanda).subscribe(console.log);
+    this.demanda.status = StatusDemanda.PREENCHIDA;
+    this.demandaService.atualizarDemanda(this.demanda).subscribe(()=>this.exibirMensagemPreenchimento());
+    this.carregarDemanda(this.demanda._id);
+    this.carregarServicos();
+  }
 
+  visualizarAnexo(anexo:Anexo){
+    this.fileService.downloadAnexo(anexo).subscribe((response:any)=>{
+      if(response?.statusCode < 400){
+        const url = response.message;
+        let message = `<p>Nome: ${anexo.nome}.</p> <a href="${url}" download>${anexo.nome}</a>`;
+        notify(this.dialog, "Download de Arquivo", message, ()=>{});
+      }
+      else{
+        let message = "<p>Arquivo não encontrado</p>"
+      }
+
+      console.log("url", response)
+    });
+  }
+
+  exibirMensagemPreenchimento(){
+    let message = "<p>Sua demanda será encaminhada para equipe de arquitetos.<p>";
+    message += "<p>Em breve entraremos em contato. Muito obrigado!</p>";
+    notify(this.dialog, "Dados enviados", message, ()=>{});
+  }
+
+  get readonly():boolean {
+    return this.demanda?.status != StatusDemanda.EM_PREENCHIMENTO;
   }
 }

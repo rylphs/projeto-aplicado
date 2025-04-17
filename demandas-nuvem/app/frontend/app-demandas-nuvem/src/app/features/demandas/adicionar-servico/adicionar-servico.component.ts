@@ -1,3 +1,4 @@
+import { StatusDemanda } from './../demanda-model';
 import { DemandaService } from './../demanda.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Component } from '@angular/core';
@@ -22,7 +23,7 @@ export class AdicionarServicoComponent {
   servico!: InstanciaServico;
   editar: boolean = false;
 
-  constructor(private router: Router, private demandaService: DemandaService) {
+  constructor(private router: Router, private demandaService: DemandaService, route:ActivatedRoute) {
     let state = this.router.getCurrentNavigation()?.extras?.state;
     if (state && state["servico"]) {
       this.servico = state["servico"];
@@ -35,8 +36,6 @@ export class AdicionarServicoComponent {
 
   adicionar() {
     if (!this.editar) {
-      let indice = this.demandaService.selectedDemanda().servicos.length;
-      this.servico.indice = indice;
       this.demandaService.selectedDemanda().servicos.push(this.servico)
     }
 
@@ -53,6 +52,10 @@ export class AdicionarServicoComponent {
 
   cancelar(){
     this.router.navigate(["formulario", this.demandaService.selectedDemanda()._id, 1])
+  }
+
+  get readonly(): boolean {
+    return this.demandaService.selectedDemanda()?.status != StatusDemanda.EM_PREENCHIMENTO;
   }
 
 }
