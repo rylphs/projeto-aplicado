@@ -53,6 +53,9 @@ class Connection:
     def insert_one(self, value):
         return self.collection().insert_one(value)
     
+    def insert_many(self, values):
+        return self.collection().insert_many(values)
+    
     def update_one(self, id:str, value: Mapping[str, any]):
         return self.collection().update_one({"_id": ObjectId(id)}, {"$set": value})
     

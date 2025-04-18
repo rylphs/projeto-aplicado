@@ -1,7 +1,7 @@
 import { MessageService } from './../../../shared/message/message.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Servico, TipoCampo } from './../servico.service';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, model } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Campo, ServicoService } from '../servico.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,12 +16,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import { confirm } from '../../../shared/confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-criar-servico',
   imports: [MatTableModule, MatIconModule, MatCardModule, MatSelectModule,
     CdkDropList, CdkDrag, MatButtonModule, MatFormFieldModule, MatInputModule,
-    FormsModule, MatChipsModule, CdkDragHandle],
+    FormsModule, MatChipsModule, CdkDragHandle, MatAutocompleteModule],
   templateUrl: './criar-servico.component.html',
   styleUrl: './criar-servico.component.css'
 })
@@ -38,9 +39,14 @@ export class CriarServicoComponent {
   constructor(private servicoService: ServicoService, private router: Router,
     route:ActivatedRoute, private messageService: MessageService, private snackbar: MatSnackBar){
 
-    const idServico = route.snapshot.params["id"];
     this.servico = new Servico();
-    if(!this.servicoService.selectedServico()._id){
+    const idServico = route.snapshot.params["id"];
+    if(!idServico || this.servicoService.selectedServico()._id){
+      this.campos = this.servicoService.selectedServico().campos;
+      this.datasource = new MatTableDataSource(this.campos);
+      this.servico = this.servicoService.selectedServico();
+    }
+    else {
       servicoService.getServico(idServico,).subscribe((response)=>{
         if(response.statusCode < 400){
           this.campos = response.message.campos;
@@ -49,11 +55,6 @@ export class CriarServicoComponent {
         }
         console.log("servico", response);
       })
-    }
-    else {
-      this.campos = this.servicoService.selectedServico().campos;
-      this.datasource = new MatTableDataSource(this.campos);
-      this.servico = this.servicoService.selectedServico();
     }
   }
 

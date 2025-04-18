@@ -9,9 +9,9 @@ class ServicoService(Connection):
         super().__init__(SERVICO_COLLECTION, client)
 
     def list_all_servicos(self):
-        return self.to_list(self.find_all())
-    
-    
+        catalogo = self.get_catalogo()
+        versao = catalogo["versao"]
+        return self.to_list(self.find_many({"catalogo":versao}))
     
     def list_all_catalogos(self):
         catalogo_con = Connection(CATALOGOS_COLLECTION, self.client)
@@ -41,3 +41,15 @@ class ServicoService(Connection):
             servico_db = self.find_one(id)
         servico_db["_id"] = str(servico_db["_id"])
         return servico_db
+    
+    def remover_servico(self, id):
+        self.delete_by_id(id)
+        return True
+    
+    def criar_versao(self):
+        servicos = self.list_all_servicos()
+        for servico in servicos:
+            servico.pop("_id")
+            servico["catalogo"] = servico["catalogo"] + 1
+        self.insert_many(servicos)
+        return self.list_all_servicos()

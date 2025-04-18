@@ -30,9 +30,12 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'app', component: LoggedAreaComponent, children: [
     {path: 'catalogo', component: ListaCatalogoComponent,
-      data:{"titulo": "Catálogos", breadcrumb: ["Catálogos"]}
+      data:{"titulo": "Catálogos", breadcrumb: ["Catálogo"]}
     },
     {path: 'catalogo/servico/:id', component: CriarServicoComponent,
+      data:{"titulo": "Catálogo", breadcrumb: ["Catálogo", "Editar Serviço"]}
+    },
+    {path: 'catalogo/servico', component: CriarServicoComponent,
       data:{"titulo": "Catálogo", breadcrumb: ["Catálogo", "Novo Serviço"]}
     },
     {path:"", redirectTo:"usuarios", pathMatch:'full'},

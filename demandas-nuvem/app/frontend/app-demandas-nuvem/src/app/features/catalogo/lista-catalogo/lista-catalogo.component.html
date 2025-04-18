@@ -1,5 +1,5 @@
 <div id="container">
-  <table mat-table [dataSource]="datasource" class="mat-elevation-z8 catalogo-table">
+  <table style="display:none" mat-table [dataSource]="datasource" class="mat-elevation-z8 catalogo-table">
 
     <!-- Position Column -->
     <ng-container matColumnDef="versao">
@@ -23,17 +23,12 @@
     <tr mat-header-row *matHeaderRowDef="cols"></tr>
     <tr mat-row *matRowDef="let row; columns: cols;"></tr>
 
-    <!-- Row shown when there is no matching data. -->
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="4">Sem catálogos</td>
     </tr>
   </table>
-  <div  id="add-button">
-    <button mat-flat-button>Nova Versão</button>
-  </div>
-  <div class="dados-catalogo-atual">
-    <h3>Catálogo Atual Versão: {{catalogoAtual?.versao}}</h3>
 
+  <div class="dados-catalogo-atual">
     <h3>Serviços:</h3>
 
     <table mat-table [dataSource]="servicosDatasource" class="mat-elevation-z8">
@@ -60,7 +55,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-mini-fab aria-label="Desabilitar" (click)="delete(element)">
-            <mat-icon>no_accounts</mat-icon>
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -75,7 +70,8 @@
       </tr>
     </table>
     <div  id="add-button">
-      <button mat-flat-button>Adicionar Serviço</button>
+      <button mat-flat-button (click)="adicionarServico()">Adicionar Serviço</button>
+      <button mat-flat-button>Gerar Nova Versão</button>
     </div>
   </div>
 

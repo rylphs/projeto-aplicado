@@ -29,7 +29,8 @@ AUTH_MAP = {
     },
     "servicos": {
         "GET": ["ADMIN", "GESTOR", "TECNICO"],
-        "POST": ["ADMIN", "GESTOR", "TECNICO"]
+        "POST": ["ADMIN", "GESTOR", "TECNICO"],
+        "DELETE": ["ADMIN", "GESTOR", "TECNICO"]
     }
 }
 

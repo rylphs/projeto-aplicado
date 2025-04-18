@@ -24,7 +24,8 @@ export class Servico {
   label!: string;
   descricao!: string;
   campos: Campo[] = [];
-  camposResumo!: string[];
+  resumo!: string[];
+  catalogo!: number;
 
   static fromObj(obj: any): Servico {
     const servico:any = new Servico();
@@ -43,7 +44,7 @@ export class Servico {
     const instancia = new InstanciaServico();
     instancia.idServico = this._id;
     instancia.label = this.label;
-    instancia.camposResumo = this.camposResumo;
+    instancia.camposResumo = this.resumo;
     for(let i in this.campos){
       let instanciaCampo = this.campos[i].criarInstancia();
       instancia.campos.push(instanciaCampo);
@@ -164,5 +165,9 @@ export class ServicoService extends ApiService<Servico> {
 
   public atualizrServico(servico:Servico) {
     return this.doPost(environment.APIGATEWAY_ROUTES.SERVICO, servico);
+  }
+
+  public excluirServico(id: string){
+    return this.doDelete(environment.APIGATEWAY_ROUTES.SERVICO, {id: id});
   }
 }
