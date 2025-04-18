@@ -1,0 +1,90 @@
+h2, h3, strong {
+  font-weight: 400;
+}
+
+#action-buttons{
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.campo-cards{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-content: stretch;
+  padding: 25px;
+}
+
+.card-campo {
+  width: 500px;
+}
+
+.add-campo-button{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 42px;
+  justify-content: center;
+}
+
+.add-campo-button button {
+  opacity: .50;
+  width: 32px;
+  height: 32px;
+}
+
+.add-campo-button button:hover {
+  opacity: 1;
+  width: 38px;
+  height: 38px;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0 !important;
+}
+
+mat-card-header {
+  align-items: center;
+  gap: 5px;
+}
+
+mat-card-header button{
+  width: 40px;
+  height: 40px;
+  border-radius: 5%;
+
+  box-shadow: none;
+}
+
+mat-card-header mat-icon {
+  font-size: 20px;
+}
+
+mat-card-header .card-title {
+  flex-grow: 1;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-full-width {
+  width: 100%;
+  padding: 10px;
+}
+
+.hide-card {
+  display: none;
+}
+
+.drag-icon {
+  font-size: 28px !important;
+  width: 32px;
+  height: 32px;
+  cursor: move;
+}

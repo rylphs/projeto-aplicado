@@ -46,6 +46,10 @@ class Connection:
     def find_many(self, filter: Mapping[str, any]):
         return self.collection().find(filter)
     
+    def find_last(self, filter: Mapping[str, any], field:str):
+        result = self.collection().find(filter=filter, limit=1, sort={field: -1})
+        return result[0]
+    
     def insert_one(self, value):
         return self.collection().insert_one(value)
     

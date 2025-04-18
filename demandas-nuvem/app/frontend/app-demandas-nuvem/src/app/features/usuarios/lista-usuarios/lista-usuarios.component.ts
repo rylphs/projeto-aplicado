@@ -49,11 +49,11 @@ export class ListaUsuariosComponent {
   }
 
   showError(message:MessageType){
-    this.snackbar.open(message.message, "close");
+    this.snackbar.open(message.message, "fechar");
   }
 
   showMessage(message:MessageType){
-    this.snackbar.open(message.message, "close");
+    this.snackbar.open(message.message, "fechar");
   }
 
   get mensagem():MessageType{

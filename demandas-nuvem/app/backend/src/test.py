@@ -3,14 +3,15 @@ from core.usuario.usuario_service import UsuarioService
 from core.demanda.demanda_service import DemandaService
 from core.database.connection import Connection
 from core.database.connection import clear_collection
+from core.catalogo.catalogo_service import ServicoService
 import json
 
-service = DemandaService()
+service = ServicoService()
 
 
-demandas = service.list_all_demandas()
+demandas = service.get_catalogo()
 
-pprint(demandas[0])
+pprint(demandas)
 
 # logged = service.login("rylphs@gmail.com", "teste55555")
 

@@ -1,5 +1,5 @@
 [
- {"nome": "servidor", "label": "Servidor", 
+ {"nome": "servidor", "label": "Servidor", "catalogo": 1,
  "descricao": "Representa um recurso computacional. Pode ser referente a um servidor em seu ambiente on premisses a ser migrado, ou mesmo uma necessidade de um recurso na nuvem.",
  "resumo": ["ambiente", "cpu", "memoria"],
 "campos": [
@@ -308,13 +308,13 @@
 				}
 		}
 	]},
- {"nome": "banco", "label": "Banco de Dados", "descricao": "Representa um recurso de armazenamento de informações. Pode ser referente a um banco em ambiente on orenusses, ou uma necessidade de banco na nuvem."},
- {"nome": "conteiner", "label": "Contêniner", "descricao": "Representa um ambiente isolado para execução de software. Pode ser referente a um container a ser migrado ou uma necessidade de containers na nuvem."},
- {"nome": "armazenamento", "label": "Armazenamento", "descricao": "Representa um recurso de armazenamento, seja sistema de arquivos ou objetos"},
- {"nome": "vpn", "label": "VPN", "descricao": "Representa um rede privada virtual, usada para acessar de forma segura o ambiente da nuvem a partir de seu ambiente local"},
- {"nome": "balanceador", "label": "Balanceador de Carga", "descricao": "O balanceador de carga permite distribuir a carga das requisições em um grupo de recursos."},
- {"nome": "backup", "label": "Backup", "descricao": "Serviço que permite criar cópias de seus dados, oferecendo redundância em caso de problemas"},
- {"nome": "cdn", "label": "CDN", "descricao": "É uma infraestrutura de servidores que armazenam conteúdo em cache para que seja entregue mais rapidamente aos usuários."},
- {"nome": "waf", "label": "Web Application Firewall", "descricao": "É uma tecnologia de segurança que protege aplicativos web de ataques"},
- {"nome": "monitoracao", "label": "CDN", "descricao": "São um conjunto de recursos que permitem monitorar outros recursos."}
+ {"nome": "banco", "label": "Banco de Dados", "catalogo": 1,"descricao": "Representa um recurso de armazenamento de informações. Pode ser referente a um banco em ambiente on orenusses, ou uma necessidade de banco na nuvem."},
+ {"nome": "conteiner", "label": "Contêniner", "catalogo": 1, "descricao": "Representa um ambiente isolado para execução de software. Pode ser referente a um container a ser migrado ou uma necessidade de containers na nuvem."},
+ {"nome": "armazenamento", "label": "Armazenamento", "catalogo": 1, "descricao": "Representa um recurso de armazenamento, seja sistema de arquivos ou objetos"},
+ {"nome": "vpn", "label": "VPN", "catalogo": 1, "descricao": "Representa um rede privada virtual, usada para acessar de forma segura o ambiente da nuvem a partir de seu ambiente local"},
+ {"nome": "balanceador", "label": "Balanceador de Carga", "catalogo": 1, "descricao": "O balanceador de carga permite distribuir a carga das requisições em um grupo de recursos."},
+ {"nome": "backup", "label": "Backup", "catalogo": 1, "descricao": "Serviço que permite criar cópias de seus dados, oferecendo redundância em caso de problemas"},
+ {"nome": "cdn", "label": "CDN", "catalogo": 1, "descricao": "É uma infraestrutura de servidores que armazenam conteúdo em cache para que seja entregue mais rapidamente aos usuários."},
+ {"nome": "waf", "label": "Web Application Firewall", "catalogo": 1, "descricao": "É uma tecnologia de segurança que protege aplicativos web de ataques"},
+ {"nome": "monitoracao", "label": "CDN", "catalogo": 1, "descricao": "São um conjunto de recursos que permitem monitorar outros recursos."}
 ]

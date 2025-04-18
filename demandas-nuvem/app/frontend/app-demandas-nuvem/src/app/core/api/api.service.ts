@@ -31,16 +31,19 @@ export class ApiService<T> {
     return this.client.get(`${this.API_URL}/${path}`);
   }
 
-  protected getById(path: string, id: string): Observable<GetCallResultType<T>> {
-    return this.client.get<GetCallResultType<T>>(`${this.API_URL}/${path}?id=${id}`);
+  protected getById(path: string, id: string, doAuth?: boolean): Observable<GetCallResultType<T>> {
+    if(!doAuth)
+      return this.client.get<GetCallResultType<T>>(`${this.API_URL}/${path}?id=${id}`);
+    else
+      return this.client.get<GetCallResultType<T>>(`${this.API_URL}/${path}?id=${id}&token=${this.getToken()}`);
   }
 
   protected doGetAll(path: string): Observable<ListResult<T>> {
     return this.client.get<ListResult<T>>(`${this.API_URL}/${path}?token=${this.getToken()}`);
   }
 
-  protected doGetSingle(path: string): Observable<T> {
-    return this.client.get<T>(`${this.API_URL}/${path}`);
+  protected doGetSingle(path: string): Observable<GetCallResultType<T>> {
+    return this.client.get<GetCallResultType<T>>(`${this.API_URL}/${path}?token=${this.getToken()}`);
   }
 
   protected doPost(path: string, data: any): Observable<GetCallResultType<T>> {

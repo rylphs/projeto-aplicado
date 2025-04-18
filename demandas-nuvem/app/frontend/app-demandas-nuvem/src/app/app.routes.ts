@@ -9,6 +9,8 @@ import { CriarDemandaComponent } from './features/demandas/criar-demanda/criar-d
 import { PerfilComponent } from './features/usuarios/perfil/perfil.component';
 import { PreencherDemandaComponent } from './features/demandas/preencher-demanda/preencher-demanda.component';
 import { AdicionarServicoComponent } from './features/demandas/adicionar-servico/adicionar-servico.component';
+import { ListaCatalogoComponent } from './features/catalogo/lista-catalogo/lista-catalogo.component';
+import { CriarServicoComponent } from './features/catalogo/criar-servico/criar-servico.component';
 
 export const Paths = {
   LOGIN: "login",
@@ -27,6 +29,12 @@ export const routes: Routes = [
   {path:"", redirectTo:"app", pathMatch:"full"},
   {path: 'login', component: LoginComponent},
   {path: 'app', component: LoggedAreaComponent, children: [
+    {path: 'catalogo', component: ListaCatalogoComponent,
+      data:{"titulo": "Catálogos", breadcrumb: ["Catálogos"]}
+    },
+    {path: 'catalogo/servico/:id', component: CriarServicoComponent,
+      data:{"titulo": "Catálogo", breadcrumb: ["Catálogo", "Novo Serviço"]}
+    },
     {path:"", redirectTo:"usuarios", pathMatch:'full'},
     {path: 'perfil', component: PerfilComponent},
     {path: 'usuarios', component: ListaUsuariosComponent,

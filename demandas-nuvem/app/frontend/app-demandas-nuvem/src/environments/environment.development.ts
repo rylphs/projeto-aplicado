@@ -5,7 +5,10 @@ export const environment = {
     LOGIN: "login",
     USUARIO: "usuarios",
     DEMANDA: "demandas",
-    SERVICOS: "servicos"
+    SERVICOS: "servicos",
+    SERVICO: "servicos/servico",
+    CATALOGO: "catalogo",
+    CATALOGO_ATUAL: "catalogo/current"
   },
   APP_TOKEN_KEY: "token",
   APP_USER_KEY: "user"

@@ -1,0 +1,21 @@
+#container{
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.catalogo-table{
+  width: 800px;
+}
+
+.actions-col button{
+  margin-right: 15px;
+}
+
+.mat-column-actions {
+  width: 200px;
+}
+
+.mat-column-versao {
+  width: 600px;
+}
