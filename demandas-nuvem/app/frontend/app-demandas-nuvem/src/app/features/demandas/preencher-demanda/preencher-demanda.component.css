@@ -1,7 +1,7 @@
 .step-form {
   display: flex;
   flex-direction: column;
-  min-height: 500px;
+  min-height: 650px;
 }
 
 .fill {
@@ -50,4 +50,24 @@
 
 .table-actions button {
   margin-right: 10px;
+}
+
+.resumo-content {
+  margin: 10px;
+}
+
+.pendencia {
+  margin-top: 5px;
+}
+
+.pendencia-servico {
+  font-size: 1.1em;
+}
+
+.pendencia-campos {
+  margin-left: 5px;
+}
+
+.pendencias{
+  margin-bottom: 10px;
 }

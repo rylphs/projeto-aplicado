@@ -1,4 +1,4 @@
-import { InstanciaServico, Servico, ServicoService } from './../../catalogo/servico.service';
+import { InstanciaServico, Servico, ServicoService, InstanciaCampo } from './../../catalogo/servico.service';
 import { DemandaService } from './../demanda.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Component, inject} from '@angular/core';
@@ -15,7 +15,13 @@ import {MatCardModule} from '@angular/material/card';
 import { FileService } from '../../../shared/file/file.service';
 import { notify } from '../../../shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
+
+type Pendencia = {
+  nome:string;
+  pendencias: string[];
+}
 
 @Component({
   selector: 'app-preencher-demanda',
@@ -29,9 +35,12 @@ export class PreencherDemandaComponent {
   dataSource!: MatTableDataSource<Anexo>;
   dataSourceServicos!: MatTableDataSource<InstanciaServico>;
   columns = ["nome", "tipo", "actions"]
+  colunasResumoAnexos = ["nome", "tipo"]
   servicos: Servico[] = [];
   colunasServicos = ["label", "quantidade", "resumo", "actions"];
+  colunasResumoServicos = ["label", "quantidade", "resumo"];
   stepperIndex = 0;
+  pendencias!:Pendencia[];
   readonly dialog = inject(MatDialog);
 
   constructor(route: ActivatedRoute, private demandaService: DemandaService,
@@ -142,5 +151,30 @@ export class PreencherDemandaComponent {
 
   get readonly():boolean {
     return this.demanda?.status != StatusDemanda.EM_PREENCHIMENTO;
+  }
+
+  stepChange(event: StepperSelectionEvent){
+    if(event.selectedIndex == 3){
+      this.listPendencias();
+    }
+  }
+
+  posuiPendencias(){
+    return this.pendencias && this.pendencias.length >0;
+  }
+
+  listPendencias(){
+    this.pendencias = this.demanda.servicos.map((servico)=> {
+      const result: Pendencia = {
+        nome: servico.label,
+        pendencias: []
+      }
+      result.pendencias = servico.campos.filter(
+        (campo)=> campo.obrigatorio && !campo.value
+      ).map((campo)=> campo.nome);
+      return result;
+    })
+
+    this.pendencias = this.pendencias.filter((servico)=>servico.pendencias && servico.pendencias.length > 0)
   }
 }

@@ -35,7 +35,7 @@
     }
     @if(!readonly && campo.render.element == "checkbox"){
     <mat-form-field [style.min-width.px]="campo.width">
-      <mat-select>
+      <mat-select [(value)]="campo.value">
         @for (opcao of campo.dominio; track opcao) {
         <mat-option [value]="opcao">{{opcao}}</mat-option>
         }
