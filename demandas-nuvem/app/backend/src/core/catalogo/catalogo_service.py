@@ -47,9 +47,15 @@ class ServicoService(Connection):
         return True
     
     def criar_versao(self):
+        catalogo_con = Connection(CATALOGOS_COLLECTION, self.client)
+        ultimo_catalogo = self.get_catalogo()
         servicos = self.list_all_servicos()
+        
+        versao = ultimo_catalogo.pop("versao") + 1
+        catalogo = {"versao": versao}
+        catalogo_con.insert_one(catalogo)
         for servico in servicos:
             servico.pop("_id")
-            servico["catalogo"] = servico["catalogo"] + 1
+            servico["catalogo"] = versao
         self.insert_many(servicos)
-        return self.list_all_servicos()
+        return self.get_catalogo()

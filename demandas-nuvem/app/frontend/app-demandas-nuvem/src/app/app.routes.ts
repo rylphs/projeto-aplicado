@@ -11,14 +11,13 @@ import { PreencherDemandaComponent } from './features/demandas/preencher-demanda
 import { AdicionarServicoComponent } from './features/demandas/adicionar-servico/adicionar-servico.component';
 import { ListaCatalogoComponent } from './features/catalogo/lista-catalogo/lista-catalogo.component';
 import { CriarServicoComponent } from './features/catalogo/criar-servico/criar-servico.component';
+import { isLoggedInGuard } from './core/auth/route-guard';
 
 export const Paths = {
   LOGIN: "login",
   MAIN: "app",
   LISTA_USUARIOS: "usuarios",
-  LISTA_DEMANDAS: "demandas",
-  NAO_AUTORIZADO: ""
-}
+  LISTA_DEMANDAS: "demandas"}
 
 export const routes: Routes = [
   {path:"formulario/:id", component: PreencherDemandaComponent, pathMatch:'full'},
@@ -28,7 +27,9 @@ export const routes: Routes = [
 
   {path:"", redirectTo:"app", pathMatch:"full"},
   {path: 'login', component: LoginComponent},
-  {path: 'app', component: LoggedAreaComponent, children: [
+
+  {path: 'app', component: LoggedAreaComponent, canActivate: [isLoggedInGuard], children: [
+    {path:"", redirectTo:"demandas", pathMatch:'full'},
     {path: 'catalogo', component: ListaCatalogoComponent,
       data:{"titulo": "Catálogos", breadcrumb: ["Catálogo"]}
     },
@@ -38,7 +39,6 @@ export const routes: Routes = [
     {path: 'catalogo/servico', component: CriarServicoComponent,
       data:{"titulo": "Catálogo", breadcrumb: ["Catálogo", "Novo Serviço"]}
     },
-    {path:"", redirectTo:"usuarios", pathMatch:'full'},
     {path: 'perfil', component: PerfilComponent},
     {path: 'usuarios', component: ListaUsuariosComponent,
       data:{"titulo": "Usuários", breadcrumb: ["Usuários"]}},

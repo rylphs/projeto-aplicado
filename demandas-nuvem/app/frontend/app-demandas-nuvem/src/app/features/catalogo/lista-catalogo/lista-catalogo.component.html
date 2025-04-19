@@ -29,6 +29,7 @@
   </table>
 
   <div class="dados-catalogo-atual">
+    <h3>Versão: {{catalogoAtual? catalogoAtual.versao : ""}}</h3>
     <h3>Serviços:</h3>
 
     <table mat-table [dataSource]="servicosDatasource" class="mat-elevation-z8">
@@ -71,7 +72,7 @@
     </table>
     <div  id="add-button">
       <button mat-flat-button (click)="adicionarServico()">Adicionar Serviço</button>
-      <button mat-flat-button>Gerar Nova Versão</button>
+      <button mat-flat-button (click)="novaVersao()">Gerar Nova Versão</button>
     </div>
   </div>
 

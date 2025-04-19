@@ -92,7 +92,7 @@
       </mat-form-field>
 
       <mat-form-field class="input-campo">
-        <mat-chip-grid #chipGrid aria-label="Enter keywords">
+        <mat-chip-grid #chipGrid aria-label="Valores do campo">
           @for (item of campo.tipoCampo.dominio; track item) {
           <mat-chip-row (removed)="removeDominio(item)">
             {{item}}
@@ -103,7 +103,7 @@
           }
         </mat-chip-grid>
         <mat-label>Opções</mat-label>
-        <input [disabled]="campo.tipoCampo.tipo != 'combobox'"
+        <input [disabled]="campo.tipoCampo.tipo != 'combobox' && campo.tipoCampo.tipo != 'boleano'"
           placeholder="Digite uma nova opção e digite [Enter]" [matChipInputFor]="chipGrid" (matChipInputTokenEnd)="addDominio($event)" />
       </mat-form-field>
 

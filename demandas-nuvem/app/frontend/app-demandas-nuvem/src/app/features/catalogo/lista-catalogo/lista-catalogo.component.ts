@@ -54,6 +54,28 @@ export class ListaCatalogoComponent {
     this.router.navigate(["servico"], {relativeTo: this.route});
   }
 
+  novaVersao(){
+    const message = "A geração de uma nova versão não irá impactar os formulários já existentes. " +
+      "Somente os novos formulários serão criados sob a nova versão. Deseja prosseguir?"
+    confirm(this.dialog, "Gerar Versão", message, (confirma)=>{
+      if(confirma){
+        this.catalogoService.gerarVersao().subscribe((response)=>{
+          if(response.statusCode < 400){
+            this.catalogoAtual = response.message;
+            let message = `Nova versão ${this.catalogoAtual.versao} gerada com sucesso.`;
+            this.servicosDatasource.data = this.catalogoAtual.servicos;
+            this.snackbar.open(message, "fechar");
+
+          } else{
+            let message = `Erro: ${response.message}`;
+            this.snackbar.open(message, "fechar");
+          }
+        })
+      }
+    })
+
+  }
+
   edit(catalogo:Catalogo){
 
   }

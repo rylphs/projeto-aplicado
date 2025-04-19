@@ -110,6 +110,7 @@ export class CriarServicoComponent {
   }
 
   adicionarCampo(posicao:number){
+    console.log("pos", posicao)
     const campo = new Campo();
     campo.nome = "campo_"+posicao;
     this.campos.splice(posicao, 0, campo);

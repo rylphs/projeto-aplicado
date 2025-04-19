@@ -170,4 +170,5 @@ export class ServicoService extends ApiService<Servico> {
   public excluirServico(id: string){
     return this.doDelete(environment.APIGATEWAY_ROUTES.SERVICO, {id: id});
   }
+
 }

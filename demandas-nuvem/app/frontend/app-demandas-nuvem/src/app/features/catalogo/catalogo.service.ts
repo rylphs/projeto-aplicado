@@ -21,4 +21,8 @@ export class CatalogoService extends ApiService<Catalogo>{
   public getCurrentCatalogo(){
     return this.doGetSingle(environment.APIGATEWAY_ROUTES.CATALOGO_ATUAL);
   }
+
+  public gerarVersao(){
+    return this.doPost(environment.APIGATEWAY_ROUTES.CATALOGO, {});
+  }
 }
