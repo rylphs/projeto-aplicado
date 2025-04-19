@@ -12,6 +12,7 @@ import { confirm, notify } from '../../../shared/confirm-dialog/confirm-dialog.c
 import { MessageService, MessageType } from '../../../shared/message/message.service';
 import { DemandaService } from '../demanda.service';
 import { Demanda } from '../demanda-model';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class ListaDemandasComponent {
   }
 
   gerarFormulario(demanda: Demanda){
-    const url = `http://localhost:4200/formulario/${demanda._id}`;
+    const url = `${environment.BASE_URL}/formulario/${demanda._id}`;
     const dialogContent = `<p>Url gerada para a demanda:</p> <a href="${url}">${url}</a>.
     <p>Informar a URL ao cliente para preenchimento.</p>`
     this.demandaService.gerarFormulario(demanda).subscribe((response)=>{
