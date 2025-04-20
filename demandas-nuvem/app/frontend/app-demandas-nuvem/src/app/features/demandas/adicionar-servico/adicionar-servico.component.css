@@ -14,12 +14,9 @@
   font-weight: bold;
 }
 
-#campos {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 50px;
-  gap: 20px;
+#dados-servico {
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 .campo {

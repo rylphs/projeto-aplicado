@@ -1,0 +1,65 @@
+@if(!readonly){
+<div id="campos">
+  @for(campo of campos; track campo){
+    <div class="campo {{campo.metaDados.className}}">
+  <div class="label-area" [style.min-width.px]="500">
+    <mat-icon aria-hidden="false" matTooltip="{{campo.metaDados.ajuda}}" matTooltipPosition="below" aria-label="Ajuda"
+      fontIcon="help"></mat-icon>
+    @if(campo.metaDados.obrigatorio){
+    <label>{{campo.metaDados.label}} (obrigatório):</label>
+    }
+    @else {
+    <label>{{campo.metaDados.label}}:</label>
+    }
+  </div>
+
+  @if(campo.metaDados.isInput()){
+  <mat-form-field [style.min-width.px]="campo.metaDados.width">
+    <input type="{{campo.metaDados.inputType}}" required="{{campo.metaDados.obrigatorio}}" name="{{campo.nome}}"
+      matInput [(ngModel)]="campo.value" />
+  </mat-form-field>
+  }
+  @if(campo.metaDados.isSelect()){
+  <mat-form-field [style.min-width.px]="campo.metaDados.width">
+    <mat-select [(value)]="campo.value">
+      @for (opcao of campo.metaDados.listaOpcoes; track opcao) {
+      <mat-option selected [value]="opcao">{{opcao}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  }
+
+  @if(campo.metaDados.isTextArea()){
+  <mat-form-field [style.min-width.px]="campo.metaDados.width">
+    <textarea matInput [style.min-width.px]="campo.metaDados.width"
+      [style.min-height.px]="campo.metaDados.height"></textarea>
+  </mat-form-field>
+  }
+  </div>
+  }
+</div>
+}
+
+@else {
+<div id="campos">
+  @for(campo of campos; track campo){
+  <div class="label-area" [style.min-width.px]="campo.metaDados.width">
+    <mat-icon aria-hidden="false" matTooltip="{{campo.metaDados.ajuda}}" matTooltipPosition="below" aria-label="Ajuda"
+      fontIcon="help"></mat-icon>
+    <label>{{campo.metaDados.label}}:</label>
+  </div>
+
+  @if(!campo.metaDados.isTextArea()){
+  <mat-form-field [style.min-width.px]="campo.metaDados.width">
+    <input [readonly]="readonly" name="{{campo.nome}}" matInput [(ngModel)]="campo.value" />
+  </mat-form-field>
+  }
+  @else {
+  <mat-form-field [style.min-width.px]="campo.metaDados.width" class="textarea-field">
+    <textarea [readonly]="readonly" matInput [style.min-width.px]="campo.metaDados.width"
+      [style.min-height.px]="campo.metaDados.height"></textarea>
+  </mat-form-field>
+  }
+  }
+</div>
+}

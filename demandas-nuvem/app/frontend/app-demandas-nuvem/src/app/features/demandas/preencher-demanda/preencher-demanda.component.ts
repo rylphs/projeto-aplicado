@@ -1,4 +1,6 @@
-import { InstanciaServico, Servico, ServicoService, InstanciaCampo } from './../../catalogo/servico.service';
+import { MessageService } from './../../../shared/message/message.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ServicoService } from './../../catalogo/servico.service';
 import { DemandaService } from './../demanda.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {Component, inject} from '@angular/core';
@@ -16,6 +18,7 @@ import { FileService } from '../../../shared/file/file.service';
 import { notify } from '../../../shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { InstanciaServico, Servico } from '../../catalogo/servico.model';
 
 
 type Pendencia = {
@@ -45,26 +48,28 @@ export class PreencherDemandaComponent {
 
   constructor(route: ActivatedRoute, private demandaService: DemandaService,
     private servicoService: ServicoService, private router:Router,
-    private fileService:FileService){
+    private fileService:FileService, private snack: MatSnackBar,
+    private messageService: MessageService){
 
     let id = route.snapshot.params["id"];
     let step = route.snapshot.params["step"];
     if(step) this.stepperIndex = Number.parseInt(step);
     this.carregarDemanda(id);
     this.carregarServicos();
+    this.configuarMensagemDemanda();
+  }
+
+  configuarMensagemDemanda(){
+    this.messageService.getSubject("demanda").subscribe(message => {
+      this.snack.open(message.message, "fechar");
+    })
   }
 
   carregarDemanda(id:string){
-    if(this.demandaService.selectedDemanda()._id){
-      this.demanda = this.demandaService.selectedDemanda();
-      this.dataSource = new MatTableDataSource(this.demanda.anexos);
-      this.dataSourceServicos = new MatTableDataSource(this.demanda.servicos)
-      return;
-    }
     if(id){
       this.demandaService.getDemanda(id).subscribe((response)=>{
         if (response.statusCode < 400){
-          this.demanda = Demanda.fromData(response.message);
+          this.demanda = response.message;
           this.demanda.anexos = this.demanda.anexos || [];
           this.dataSource = new MatTableDataSource(this.demanda.anexos);
           this.dataSourceServicos = new MatTableDataSource(this.demanda.servicos)
@@ -87,17 +92,28 @@ export class PreencherDemandaComponent {
 
   adicionarServico(servico:Servico){
     let instancia = servico.criarInstancia();
-    instancia.indice = this.demanda.servicos.length;
-    this.dataSourceServicos.data = this.demanda.servicos;
-    this.router.navigate(["formulario",this.demanda._id,"servico"], {state: {servico:instancia, novo:true}});
+    instancia.id = this.demanda.servicos.length;
+    this.demanda.servicos.push(instancia);
+    this.demandaService.atualizarDemanda(this.demanda).subscribe(response => {
+      if(response.statusCode < 400){
+        this.dataSourceServicos.data = this.demanda.servicos;
+        const state = {state: {servico:instancia, novo:true}};
+        this.router.navigate(["formulario",this.demanda._id,"servico", servico._id, instancia.id]);
+      }
+      else {
+        this.snack.open(`Erro ao salvar demanda: ${response.message}`);
+      }
+    })
+
   }
 
   editarServico(instancia:InstanciaServico){
-    this.router.navigate(["formulario",this.demanda._id, "servico"], {state: {servico:instancia, novo:false}});
+    const state = {state: {servico:instancia, novo:false}};
+    this.router.navigate(["formulario",this.demanda._id, "servico", instancia.metaData.nome, instancia.id]);
   }
 
   removerServico(instancia:InstanciaServico){
-    let indice = instancia.indice;
+    let indice = this.demanda.servicos.indexOf(instancia);
     this.demanda.servicos.splice(indice, 1);
     this.dataSourceServicos.data = this.demanda.servicos;
   }
@@ -166,11 +182,11 @@ export class PreencherDemandaComponent {
   listPendencias(){
     this.pendencias = this.demanda.servicos.map((servico)=> {
       const result: Pendencia = {
-        nome: servico.label,
+        nome: servico.metaData.label,
         pendencias: []
       }
       result.pendencias = servico.campos.filter(
-        (campo)=> campo.obrigatorio && !campo.value
+        (campo)=> campo.metaDados.obrigatorio && !campo.value
       ).map((campo)=> campo.nome);
       return result;
     })

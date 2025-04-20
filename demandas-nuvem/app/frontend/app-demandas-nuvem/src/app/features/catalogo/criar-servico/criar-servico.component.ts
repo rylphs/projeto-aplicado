@@ -1,9 +1,10 @@
 import { MessageService } from './../../../shared/message/message.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Servico, TipoCampo } from './../servico.service';
-import { Component, computed, inject, model } from '@angular/core';
+import { Servico } from './../servico.model';
+import {Campo} from './../campo.model';
+import { Component, inject } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Campo, ServicoService } from '../servico.service';
+import { ServicoService } from '../servico.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
@@ -16,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import { confirm } from '../../../shared/confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-criar-servico',
@@ -84,23 +85,21 @@ export class CriarServicoComponent {
 
   addDominio(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if(this.editedCampo && this.editedCampo.tipoCampo?.dominio){
-      const i = this.editedCampo.tipoCampo.dominio.indexOf(value);
+    if(this.editedCampo?.definicao?.dominio && this.editedCampo.definicao.dominio instanceof Array){
+      const i = this.editedCampo.definicao.dominio.indexOf(value);
       if(i < 0){
-        this.editedCampo.tipoCampo.dominio.push(value);
+        this.editedCampo.definicao.dominio.push(value);
       }
-
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
   removeDominio(value:string){
-    if(this.editedCampo && this.editedCampo.tipoCampo?.dominio){
-      const i = this.editedCampo.tipoCampo.dominio.indexOf(value);
-      this.editedCampo.tipoCampo.dominio.splice(i, 1);
-      return this.editedCampo.tipoCampo.dominio;
+    if(this.editedCampo?.definicao?.dominio && this.editedCampo.definicao.dominio instanceof Array){
+      const i = this.editedCampo.definicao.dominio.indexOf(value);
+      this.editedCampo.definicao.dominio.splice(i, 1);
+      return this.editedCampo.definicao.dominio;
     }
     return [];
   }
@@ -118,7 +117,7 @@ export class CriarServicoComponent {
 
   editarCampo(campo:Campo){
     this.editedCampo = campo;
-    this.valuesCampo = Campo.fromObj(campo);
+    this.valuesCampo = Campo.fromData(campo);
   }
 
   removerCampo(campo:Campo){
@@ -138,7 +137,7 @@ export class CriarServicoComponent {
       this.editedCampo.label = this.valuesCampo.label;
       this.editedCampo.nome = this.valuesCampo.nome;
       this.editedCampo.obrigatorio = this.valuesCampo.obrigatorio;
-      this.editedCampo.tipoCampo = this.valuesCampo.tipoCampo;
+      this.editedCampo.definicao = this.valuesCampo.definicao;
       this.editedCampo.ordem = this.valuesCampo.ordem;
     }
 

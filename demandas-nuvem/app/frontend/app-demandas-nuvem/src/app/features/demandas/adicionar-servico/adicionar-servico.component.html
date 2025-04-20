@@ -1,64 +1,24 @@
-<div id="titulo">Formulário de Demandas Multicloud - {{editar? "Atualizar":"Adicionar"}} {{servico.label}}</div>
+@if(instancia.metaData){
+<div id="titulo">Formulário de Demandas Multicloud - {{editar? "Atualizar":"Adicionar"}} {{instancia.metaData.label}}</div>
 @if(readonly){
   <div id="subtitulo">Essa demanda já foi preenchida. Caso necessite alterá-la, entre em contato com o gestor da demanda.</div>
 }
-
-<div id="campos">
-  @for(campo of servico.campos; track campo){
-  <div class="campo">
-    <div class="label-area" [style.min-width.px]="campo.width">
-      <mat-icon aria-hidden="false" matTooltip="{{campo.ajuda}}" matTooltipPosition="below" aria-label="Ajuda"
-        fontIcon="help"></mat-icon>
-      @if(campo.obrigatorio && !readonly){
-      <label>{{campo.label}} (obrigatório):</label>
-      }
-      @else {
-      <label>{{campo.label}}:</label>
-      }
-
-    </div>
-
-    @if(campo.render.element == "input" || (readonly && campo.render.element != "textarea")){
-    <mat-form-field [style.min-width.px]="campo.width">
-      <input [readonly]="readonly" type="{{campo.render.tipo}}" required="{{campo.obrigatorio}}" name="{{campo.nome}}" matInput
-        [(ngModel)]="campo.value" />
+  <div id="dados-servico">
+    <h3>Adicionar {{instancia.metaData.label}}</h3>
+    <label>Quantidade:</label>
+    <mat-form-field>
+      <input type="number" matInput [(ngModel)]="instancia.quantidade"/>
     </mat-form-field>
-    }
-    @if(!readonly && campo.render.element == "combobox"){
-    <mat-form-field [style.min-width.px]="campo.width">
-      <mat-select  [(value)]="campo.value">
-        @for (opcao of campo.dominio; track opcao) {
-        <mat-option selected [value]="opcao">{{opcao}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    }
-    @if(!readonly && campo.render.element == "checkbox"){
-    <mat-form-field [style.min-width.px]="campo.width">
-      <mat-select [(value)]="campo.value">
-        @for (opcao of campo.dominio; track opcao) {
-        <mat-option [value]="opcao">{{opcao}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    }
-    @if(campo.render.element == "textarea"){
-      <mat-form-field [style.min-width.px]="campo.width">
-    <textarea [readonly]="readonly" matInput [style.min-width.px]="campo.width" [style.min-height.px]="campo.height"></textarea>
-  </mat-form-field>
-    }
-
-
   </div>
-  }
+    <app-campo-input [campos]="instancia.campos" [readonly]="readonly"></app-campo-input>
+
   <div id="actions">
     @if(readonly){
       <button mat-flat-button (click)="cancelar()">Voltar</button>
     }
     @else{
       <button mat-flat-button (click)="adicionar()">{{editar? "Atualizar":"Adicionar"}}</button>
-      <button mat-flat-button (click)="cancelar()">Cancelar</button>
+      <button mat-flat-button (click)="cancelar()">Voltar</button>
     }
-
   </div>
-</div>
+}

@@ -1,4 +1,4 @@
-import { InstanciaServico } from "../catalogo/servico.service";
+import { InstanciaServico, Servico } from "../catalogo/servico.model";
 import { Usuario } from "../usuarios/usuario.model";
 
 
@@ -41,7 +41,9 @@ export class Demanda {
      demanda.gestor = data.gestor;
      demanda.status = data.status;
      demanda.anexos = data.anexos || [];
-     demanda.servicos = data.servicos || [];
+     if(data.servicos)
+      demanda.servicos = data.servicos.map((servico:any) => Servico.instanciaFromData(servico))
+    else demanda.servicos = [];
      return demanda;
   }
 

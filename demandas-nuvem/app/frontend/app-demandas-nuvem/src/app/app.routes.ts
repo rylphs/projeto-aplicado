@@ -21,7 +21,8 @@ export const Paths = {
 
 export const routes: Routes = [
   {path:"formulario/:id", component: PreencherDemandaComponent, pathMatch:'full'},
-  {path:"formulario/:id/servico", component: AdicionarServicoComponent},
+  {path:"formulario/:id/servico/:idServico", component: AdicionarServicoComponent},
+  {path:"formulario/:id/servico/:idServico/:indice", component: AdicionarServicoComponent},
   {path:"formulario/:id/:step", component: PreencherDemandaComponent},
 
 

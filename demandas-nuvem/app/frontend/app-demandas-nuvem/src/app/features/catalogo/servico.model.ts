@@ -1,0 +1,55 @@
+import { Campo, InstanciaCampo } from "./campo.model";
+export class InstanciaServico {
+  quantidade!: number;
+  metaData!: Servico;
+  campos: InstanciaCampo[] = [];
+  id!: number;
+
+  getResumo(){
+    const camposResumo = this.metaData.resumo;
+    return this.campos.filter((campo) => camposResumo.includes(campo.nome))
+      .map((campo)=> `${campo.nome}=${campo.value}`).join(", ");
+  }
+}
+
+export class Servico {
+  _id!: string;
+  nome!: string;
+  label!: string;
+  descricao!: string;
+  campos: Campo[] = [];
+  resumo!: string[];
+  catalogo!: number;
+  multiplo: boolean = false;
+
+  static fromData(data: any): Servico {
+    const servico:any = new Servico();
+    for(let prop in servico){
+      if (prop == "campos" && data.campos) {
+        servico.campos = data.campos.map((campo:Campo) => Campo.fromData(campo));
+      }
+      else servico[prop] = data[prop];
+    }
+    return servico;
+  }
+
+  static instanciaFromData(data:any): InstanciaServico {
+    const servico = Servico.fromData(data.metaData);
+    const instancia = new InstanciaServico();
+
+    instancia.id = data.id;
+    instancia.metaData = servico;
+    instancia.quantidade = data.quantidade;
+    instancia.campos = data.campos.map((instancia:any) => Campo.instanciaFromData(instancia))
+    return instancia;
+  }
+
+  criarInstancia(): InstanciaServico {
+    const instancia = new InstanciaServico();
+    instancia.quantidade = 1;
+    instancia.metaData = this;
+    instancia.campos = this.campos.map((campo)=>campo.criarInstancia())
+    return instancia;
+  }
+
+}

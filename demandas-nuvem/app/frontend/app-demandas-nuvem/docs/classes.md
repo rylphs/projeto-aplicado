@@ -30,6 +30,45 @@ Demanda --> Usuario: gestor
 Demanda --> Usuario: tecnico
 Demanda --> StatusDemanda: status
 
+class Catalogo {
+  versao
+}
+
+class Servico {
+  nome
+  label
+  descricao
+  camposResumo
+}
+
+class TipoCampo {
+  tipo
+  dominio
+}
+
+class Campo {
+  nome
+  label
+  ajuda
+  ordem
+}
+
+class InstanciaServico {
+  resumo
+}
+
+class InstanciaCampo {
+  valor
+}
+
+Catalogo *-- "*" Servico: servicos
+Servico *-- "*" Campo: campos
+Campo --> TipoCampo: tipo
+InstanciaCampo --> Campo: metadado
+InstanciaServico *-- "*" InstanciaCampo: campos
+InstanciaServico --> Servico: metadado
+Demanda *-- "*" InstanciaServico: dados
+
 
 @enduml
 

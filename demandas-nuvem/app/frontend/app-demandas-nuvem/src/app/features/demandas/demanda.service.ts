@@ -17,7 +17,6 @@ export class DemandaService extends ApiService<Demanda>{
   public listarDemandas(){
       let demandaList = this.doGetAll(environment.APIGATEWAY_ROUTES.DEMANDA);
         return demandaList.pipe(map((result)=>{
-          console.log("demanda", result)
           if(result.statusCode < 400){
             result.message = result.message.map((obj:Demanda) => Demanda.fromData(obj))
           }
@@ -31,7 +30,12 @@ export class DemandaService extends ApiService<Demanda>{
   }
 
   public getDemanda(id:string){
-    return this.getById("demanda", id);
+    return this.getById("demanda", id).pipe(map(result =>{
+      if(result.statusCode < 400){
+        result.message = result.message =  Demanda.fromData(result.message)
+      }
+      return result;
+    }));
   }
 
   criarDemanda(demanda:Demanda){

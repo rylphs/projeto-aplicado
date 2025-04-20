@@ -6,9 +6,10 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { Servico, ServicoService } from '../servico.service';
+import { ServicoService } from '../servico.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { confirm } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { Servico } from '../servico.model';
 
 @Component({
   selector: 'app-lista-catalogo',

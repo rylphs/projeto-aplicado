@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Servico } from './servico.service';
+import { Servico } from './servico.model';
 import { ApiService } from '../../core/api/api.service';
 import { environment } from '../../../environments/environment';
 
