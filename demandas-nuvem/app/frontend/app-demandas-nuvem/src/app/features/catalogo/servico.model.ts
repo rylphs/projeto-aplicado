@@ -8,7 +8,9 @@ export class InstanciaServico {
   getResumo(){
     const camposResumo = this.metaData.resumo;
     return this.campos.filter((campo) => camposResumo.includes(campo.nome))
-      .map((campo)=> `${campo.nome}=${campo.value}`).join(", ");
+      .map((campo)=> {
+        return `${campo.nome}=${campo.value}`;
+      }).join(", ");
   }
 
   copy(){

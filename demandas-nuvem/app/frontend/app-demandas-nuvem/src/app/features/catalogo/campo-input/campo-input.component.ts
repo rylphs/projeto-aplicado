@@ -6,7 +6,6 @@ import { InstanciaCampo } from '../campo.model';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { CampoServicoComponent } from "../campo-servico/campo-servico.component";
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -15,18 +14,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './campo-input.component.html',
   styleUrl: './campo-input.component.css'
 })
-export class CampoInputComponent implements AfterViewInit{
-  dialogData!:any;
+export class CampoInputComponent {
   @Input() campos!: InstanciaCampo[];
   @Input() readonly!: boolean;
 
-
-  ngAfterViewInit(){
-    if(!this.campos){
-      this.dialogData = inject(MAT_DIALOG_DATA);
-    }
-    console.log("campo-input dialogData", this.dialogData);
-    console.log("campo-input campos", this.campos);
-
-  }
 }

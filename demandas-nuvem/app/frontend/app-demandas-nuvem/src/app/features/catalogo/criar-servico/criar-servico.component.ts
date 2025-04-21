@@ -57,13 +57,7 @@ export class CriarServicoComponent {
         }
       }
     })
-    /* servicoService.getServico(idServico,).subscribe((response)=>{
-       if(response.statusCode < 400){
-         this.campos = response.message.campos;
-         this.datasource = new MatTableDataSource(this.campos);
-         this.servico = response.message;
-       }
-     })*/
+
   }
 
   get tiposDeCampo(){
@@ -96,7 +90,10 @@ export class CriarServicoComponent {
 
   addDominio(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (this.editedCampo?.definicao?.dominio && this.editedCampo.definicao.dominio instanceof Array) {
+    if (this.editedCampo?.definicao) {
+      if(!this.editedCampo.definicao.dominio || !(this.editedCampo.definicao.dominio instanceof Array)){
+        this.editedCampo.definicao.dominio = [];
+      }
       const i = this.editedCampo.definicao.dominio.indexOf(value);
       if (i < 0) {
         this.editedCampo.definicao.dominio.push(value);

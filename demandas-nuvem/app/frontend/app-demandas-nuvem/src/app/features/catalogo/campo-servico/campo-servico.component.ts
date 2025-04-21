@@ -1,7 +1,8 @@
+import { map } from 'rxjs';
 import { InstanciaCampo } from './../campo.model';
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { InstanciaServico } from '../servico.model';
+import { InstanciaServico, Servico } from '../servico.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -14,9 +15,10 @@ import { DialogCampoInputComponent } from '../dialog-campo-input/dialog-campo-in
   templateUrl: './campo-servico.component.html',
   styleUrl: './campo-servico.component.css'
 })
-export class CampoServicoComponent {
+export class CampoServicoComponent implements AfterViewInit{
   @Input() campo!: InstanciaCampo;
-  instancia:InstanciaServico[] = [];
+  servico!: Servico;
+  instancias:InstanciaServico[] = [];
   datasource!: MatTableDataSource<InstanciaServico>;
   columns = ["label", "resumo", "actions"]
   dialogRef?: MatDialogRef<DialogCampoInputComponent>;
@@ -24,7 +26,21 @@ export class CampoServicoComponent {
   editedIndex?:number;
 
   constructor(private dialog: MatDialog, private servicoServic: ServicoService){
-    this.datasource = new MatTableDataSource(this.instancia);
+    this.datasource = new MatTableDataSource(this.instancias);
+  }
+
+  ngAfterViewInit(): void {
+    const idServico = this.campo.metaDados.definicao.dominio;
+    if(idServico){
+      this.servicoServic.getServico(idServico as string).subscribe(response=>{
+        if(response.statusCode < 400){
+          this.servico = response.message;
+          this.campo.value = this.campo.value.map(Servico.instanciaFromData)
+          this.instancias = this.campo.value;
+          this.datasource.data = this.instancias;
+        }
+      })
+    }
   }
 
   getNomeServico(){
@@ -45,28 +61,27 @@ export class CampoServicoComponent {
   }
 
   adicionar(){
-    const idServico = this.campo.metaDados.definicao.dominio;
-    if(idServico){
-      this.servicoServic.getServico(idServico as string).subscribe(response=>{
-        if(response.statusCode < 400){
-          this.instanciaAlterada = response.message.criarInstancia();
-          this.abrirDialogo(this.instanciaAlterada);
-        }
-      })
+    if(this.servico){
+      this.instanciaAlterada = this.servico.criarInstancia();
+      this.abrirDialogo(this.instanciaAlterada);
     }
   }
 
   confirmarAdicao(campos:InstanciaCampo[]){
     if(this.instanciaAlterada){
-      const index = this.instancia.indexOf(this.instanciaAlterada);
+      const index = this.instancias.indexOf(this.instanciaAlterada);
       this.instanciaAlterada.campos = campos;
       console.log(index, campos)
       if(index < 0){
-        this.instancia.push(this.instanciaAlterada);
+        this.instancias.push(this.instanciaAlterada);
       }
+      this.campo.value = this.campo.value || [];
+
+      this.campo.value.push(this.instanciaAlterada);
       this.instanciaAlterada = undefined;
-      console.log(this.instancia)
-      this.datasource.data = this.instancia;
+      console.log(this.instancias)
+      console.log(this.campo);
+      this.datasource.data = this.instancias;
     }
   }
 
@@ -76,8 +91,9 @@ export class CampoServicoComponent {
   }
 
   delete(servico:InstanciaServico){
-    const index = this.instancia.indexOf(servico);
-    this.instancia.splice(index, 1);
+    const index = this.instancias.indexOf(servico);
+    this.instancias.splice(index, 1);
+    this.datasource.data = this.instancias;
   }
 
 
