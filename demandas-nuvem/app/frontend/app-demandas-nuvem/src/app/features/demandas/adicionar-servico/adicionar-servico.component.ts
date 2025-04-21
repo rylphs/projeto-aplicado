@@ -25,6 +25,7 @@ export class AdicionarServicoComponent {
   instancia!: InstanciaServico;
   editar: boolean = false;
   demanda!: Demanda;
+  servicos: InstanciaServico[] = [];
 
   constructor(private router: Router, private demandaService: DemandaService, route:ActivatedRoute,
     private messageService: MessageService) {
@@ -47,6 +48,7 @@ export class AdicionarServicoComponent {
           this.demanda = response.message;
           this.demandaService.selectedDemanda.set(this.demanda);
           this.instancia = this.demanda.servicos.find(servico => servico.id == indice) || new InstanciaServico();
+          this.servicos = this.demanda.servicos;
           console.log(this.instancia);
         }
 

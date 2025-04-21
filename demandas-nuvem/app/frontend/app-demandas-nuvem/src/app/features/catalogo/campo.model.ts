@@ -1,3 +1,5 @@
+import { Servico } from "./servico.model"
+
 export enum TipoCampo {
   TEXT = "TEXT",
   INTEGER = "INTEGER",
@@ -9,15 +11,15 @@ export enum TipoCampo {
   MULTIPLE_OPTION = "MULTIPLE_OPTION"
 }
 
-const TIPOS = {
+export const TIPOS = {
   TEXT: "Text",
   INTEGER: "Inteiro",
   DECIMAL: "Decimal",
-  LIST: "Lista",
+  LIST: "Lista de Serviços",
   MULTILINE_TEXT: "Texto Multilinha",
   BINARY: "Binário",
   OPTION: "Lista de Opções",
-  MULTIPLE_OPTION: "Lista de Opções('Múltipla')"
+  MULTIPLE_OPTION: "Lista de Opções ('Múltipla')"
 }
 
 const NUMBER_TYPES = ["DECIMAL", "INTEGER"]
@@ -26,7 +28,7 @@ const SELECT_TYPES = ["BINARY", "OPTION", "MULTIPLE_OPTION"]
 const TEXT_AREA_TYPES = ["MULTILINE_TEXT"]
 const TABLE_TYPES = ["LIST"]
 
-export type DominioCampo = string[] | Campo
+export type DominioCampo = string[] | string
 
 export type DefinicaoCampo = {
   tipo: TipoCampo;
@@ -51,6 +53,8 @@ export class Campo {
   obrigatorio!: boolean;
   default!: string;
 
+  static tipos = Object.entries(TIPOS).map(entry => { return {key: entry[0], value: entry[1]}});
+
   static instanciaFromData(data:any): InstanciaCampo {
     const campo = Campo.fromData(data.metaDados);
     const instancia = campo.criarInstancia();
@@ -60,14 +64,23 @@ export class Campo {
     return instancia;
   }
 
-  static fromData(data: any): Campo{
-    const campo:any = new Campo();
+  static fromData(data: any, servicos?:Servico[]): Campo{
+    servicos = servicos || [];
+    const campo:Campo = new Campo();
     for(let prop in data){
-      campo[prop] = data[prop];
+      (campo as any)[prop] = data[prop];
     }
     campo.width = campo.width ||
       ([TipoCampo.TEXT, TipoCampo.MULTILINE_TEXT].includes(campo.definicao.tipo) ? 800 : 300)
-    campo.height = campo.height || 200
+    campo.height = campo.height || 200;
+    /*if(campo.dominioEhServico()){
+      const idServico = campo.definicao.dominio || "";
+      const servico = servicos.find((servico)=>servico._id == idServico)
+      if(servico) {
+        console.log("Carregando servico", servico)
+        campo.definicao.dominio = Servico.fromData(servico);
+      }
+    }*/
     return campo;
   }
 
@@ -84,16 +97,16 @@ export class Campo {
     }
   }
 
-  tipos(){
-    return TIPOS;
-  }
-
   get inputType(){
     return NUMBER_TYPES.includes(this.definicao.tipo) ? "number" : "text";
   }
 
   dominioEhLista(){
     return SELECT_TYPES.includes(this.definicao.tipo);
+  }
+
+  dominioEhServico(){
+    return this.isTable();
   }
 
   isInput(){

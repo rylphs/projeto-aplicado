@@ -1,98 +1,45 @@
+<div id="container">
+
 <div id="action-buttons">
   <button [disabled]="this.editedCampo" mat-flat-button (click)="salvarServico()">Aplicar Alterações</button>
   <button [disabled]="this.editedCampo" mat-flat-button (click)="voltar()">Cancelar</button>
 </div>
 
-@if (!editedCampo) {
-  <mat-card id="form-servico" appearance="outlined">
-    <mat-card-header><h2>Serviço</h2></mat-card-header>
-    <mat-card-content>
-      <mat-form-field>
-        <mat-label>Nome</mat-label>
-        <input matInput placeholder="Nome" name="nome" [(ngModel)]="servico.nome">
-      </mat-form-field>
+@if(editedCampo){
+    <mat-card class="card-full-width" appearance="outlined">
+      <mat-card-header>
+        <mat-form-field subscriptSizing="dynamic" class="input-campo card-title">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Nome" name="nome" [(ngModel)]="editedCampo.nome">
+        </mat-form-field>
+        <button mat-fab aria-label="Cancelar" (click)="cancelarEdicaoCampo()">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button mat-fab aria-label="Aplicar" (click)="aceitarAlteracaoCampo()">
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-card-header>
 
-      <mat-form-field>
-        <mat-label>Label</mat-label>
-        <input matInput placeholder="Label" name="label" [(ngModel)]="servico.label">
-      </mat-form-field>
+      <mat-card-content>
 
-      <mat-form-field>
-        <mat-label>Descrição</mat-label>
-        <textarea [(ngModel)]="servico.descricao" matInput></textarea>
-      </mat-form-field>
-    </mat-card-content>
+        <mat-form-field class="input-campo">
+          <mat-label>Label</mat-label>
+          <input matInput placeholder="Label" name="label" [(ngModel)]="editedCampo.label">
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Campos Resumo {{servico.resumo ? servico.resumo.join(",") : "0"}}</mat-label>
-      <mat-select [(ngModel)]="servico.resumo" multiple>
-        @for (campo of servico.campos; track campo) {
-          <mat-option [value]="campo.nome">{{campo.label}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-  </mat-card>
-  <div><h2>Campos</h2></div>
-}
-
-<div cdkDropList (cdkDropListDropped)="drop($event)" class="campo-cards">
-  @if(!editedCampo){
-  <div class="add-campo-button">
-    <button mat-fab aria-label="Adicionar campo" (click)="adicionarCampo(0)">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  }
-  @for(campo of campos; track campo){
-  <mat-card class="card-campo" appearance="outlined" cdkDrag [class.card-full-width]="isEditing(campo)" [class.hide-card]="!!editedCampo && !isEditing(campo)">
-    <mat-card-header>
-      @if(isEditing(campo)){
-      <mat-form-field subscriptSizing="dynamic" class="input-campo card-title">
-        <mat-label>Nome</mat-label>
-        <input matInput placeholder="Nome" name="nome" [(ngModel)]="campo.nome">
-      </mat-form-field>
-      <button mat-fab aria-label="Cancelar" (click)="cancelarEdicaoCampo()">
-        <mat-icon>cancel</mat-icon>
-      </button>
-      <button mat-fab aria-label="Aplicar" (click)="aceitarAlteracaoCampo()">
-        <mat-icon>check</mat-icon>
-      </button>
-      }
-      @else {
-        <mat-icon class="drag-icon" cdkDragHandle aria-hidden="false" aria-label="Mudar de ordem" fontIcon="open_with"></mat-icon>
-      <h3 class="card-title">{{campo.nome}}</h3>
-      <button mat-fab aria-label="Editar campo" (click)="editarCampo(campo)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-fab aria-label="Remover campo" (click)="removerCampo(campo)">
-        <mat-icon>delete</mat-icon>
-      </button>
-      }
-
-
-
-    </mat-card-header>
-    <mat-card-content>
-      @if(isEditing(campo)){
-      <mat-form-field class="input-campo">
-        <mat-label>Label</mat-label>
-        <input matInput placeholder="Label" name="label" [(ngModel)]="campo.label">
-      </mat-form-field>
-
-      <mat-form-field class="input-campo">
-        <mat-label>Tipo de Campo</mat-label>
-        <mat-select [(ngModel)]="campo.definicao.tipo">
-          @for(tipo of campo.tipos(); track tipo){
+        <mat-form-field class="input-campo">
+          <mat-label>Tipo de Campo</mat-label>
+          <mat-select [(ngModel)]="editedCampo.definicao.tipo">
+            @for(tipo of tiposCampo; track tipo){
             <mat-option value="{{tipo.key}}">{{tipo.value}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+            }
+          </mat-select>
+        </mat-form-field>
 
-      @if(campo.dominioEhLista()){
+        @if(editedCampo.dominioEhLista()){
         <mat-form-field class="input-campo">
           <mat-chip-grid #chipGrid aria-label="Valores do campo">
-            @for (item of campo.listaOpcoes; track item) {
+             @for (item of editedCampo.listaOpcoes; track item) {
             <mat-chip-row (removed)="removeDominio(item)">
               {{item}}
               <button matChipRemove [attr.aria-label]="'remove ' + item">
@@ -102,55 +49,134 @@
             }
           </mat-chip-grid>
           <mat-label>Opções</mat-label>
-          <input placeholder="Digite uma nova opção e digite [Enter]" [matChipInputFor]="chipGrid" (matChipInputTokenEnd)="addDominio($event)" />
+          <input placeholder="Digite uma nova opção e digite [Enter]" [matChipInputFor]="chipGrid"
+            (matChipInputTokenEnd)="addDominio($event)" />
         </mat-form-field>
-      }
+        }
+
+        @else if(editedCampo.dominioEhServico()){
+          <mat-form-field class="input-campo">
+            <mat-label>Serviço</mat-label>
+            <mat-select [(ngModel)]="editedCampo.definicao.dominio">
+              @for(servico of servicos; track servico){
+              <mat-option value="{{servico._id}}">{{servico.label}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
 
 
-      <mat-form-field class="input-campo">
-        <mat-label>Obrigatório:</mat-label>
-        <mat-select name="obrigatorio" [(ngModel)]="campo.obrigatorio">
-          <mat-option [value]="true">Sim</mat-option>
-          <mat-option [value]="false">Não</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="input-campo">
+          <mat-label>Obrigatório:</mat-label>
+          <mat-select name="obrigatorio" [(ngModel)]="editedCampo.obrigatorio">
+            <mat-option [value]="true">Sim</mat-option>
+            <mat-option [value]="false">Não</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="input-campo">
-        <mat-label>Valor Default</mat-label>
-        @if(campo.dominioEhLista()){
-        <mat-select [(ngModel)]="campo.default">
-          @for(option of campo.listaOpcoes; track option){
-          <mat-option value={{option}}>{{option}}</mat-option>
+        <mat-form-field class="input-campo">
+          <mat-label>Valor Default</mat-label>
+          @if(editedCampo.dominioEhLista()){
+          <mat-select [(ngModel)]="editedCampo.default">
+            @for(option of editedCampo.listaOpcoes; track option){
+            <mat-option value={{option}}>{{option}}</mat-option>
+            }
+          </mat-select>
           }
-        </mat-select>
-        }
-        @else {
-        <input matInput placeholder="Default" name="default" [(ngModel)]="campo.default">
-        }
-      </mat-form-field>
+          @else {
+          <input matInput placeholder="Default" name="default" [(ngModel)]="editedCampo.default">
+          }
+        </mat-form-field>
 
-      <mat-form-field class="input-campo">
-        <mat-label>Texto Ajuda</mat-label>
-        <textarea [(ngModel)]="campo.ajuda" matInput></textarea>
-      </mat-form-field>
+        <mat-form-field class="input-campo">
+          <mat-label>Texto Ajuda</mat-label>
+          <textarea [(ngModel)]="editedCampo.ajuda" matInput></textarea>
+        </mat-form-field>
 
+      </mat-card-content></mat-card>
+
+}
+
+@else {
+
+<mat-card id="form-servico" appearance="outlined">
+  <mat-card-header>
+    <h2>Serviço</h2>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <mat-label>Nome</mat-label>
+      <input matInput placeholder="Nome" name="nome" [(ngModel)]="servico.nome">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Label</mat-label>
+      <input matInput placeholder="Label" name="label" [(ngModel)]="servico.label">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Descrição</mat-label>
+      <textarea [(ngModel)]="servico.descricao" matInput></textarea>
+    </mat-form-field>
+  </mat-card-content>
+
+  <mat-form-field>
+    <mat-label>Campos Resumo</mat-label>
+    <mat-select [(ngModel)]="servico.resumo" multiple>
+      @for (campo of servico.campos; track campo) {
+      <mat-option [value]="campo.nome">{{campo.label}}</mat-option>
       }
-      @else {
+    </mat-select>
+  </mat-form-field>
+
+</mat-card>
+<div>
+  <h2>Campos</h2>
+</div>
+<div class="campo-cards">
+<div cdkDropList (cdkDropListDropped)="drop($event)" class="campo-cards">
+  <div class="add-campo-button">
+    <button mat-fab aria-label="Adicionar campo" (click)="adicionarCampo(0)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  @for(campo of campos; track campo){
+  <mat-card class="card-campo" appearance="outlined" cdkDrag [class.card-full-width]="isEditing(campo)"
+    [class.hide-card]="!!editedCampo && !isEditing(campo)">
+
+    <mat-card-header>
+      <mat-icon class="drag-icon" cdkDragHandle aria-hidden="false" aria-label="Mudar de ordem"
+        fontIcon="open_with"></mat-icon>
+      <h3 class="card-title">{{campo.nome}}</h3>
+      <button mat-fab aria-label="Editar campo" (click)="editarCampo(campo)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-fab aria-label="Remover campo" (click)="removerCampo(campo)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
       <div><strong>Label</strong>: {{campo.label}}</div>
-      <div><strong>Tipo</strong>: {{campo.definicao.tipo}}</div>
+      <div><strong>Tipo</strong>: {{tiposDeCampo[campo.definicao.tipo]}}</div>
       <div><strong>Opções</strong>: {{campo.listaOpcoes.join(", ")}}</div>
       <div><strong>Obrigatório</strong>: {{campo.obrigatorio? "Sim": "Não"}}</div>
       <div><strong>Default</strong>: {{campo.default}}</div>
       <div><strong>Ajuda</strong>: {{campo.ajuda}}</div>
+    </mat-card-content>
 
-      }
-    </mat-card-content></mat-card>
-  @if(!editedCampo){
+  </mat-card>
+
   <div class="add-campo-button">
     <button mat-fab aria-label="Adicionar campo" (click)="adicionarCampo($index+1)">
       <mat-icon>add</mat-icon>
     </button>
   </div>
   }
-  }
 </div>
+</div>
+}
+
+</div>
+

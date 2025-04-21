@@ -1,3 +1,7 @@
+#container {
+  padding: 35px;
+}
+
 h2, h3, strong {
   font-weight: 400;
 }

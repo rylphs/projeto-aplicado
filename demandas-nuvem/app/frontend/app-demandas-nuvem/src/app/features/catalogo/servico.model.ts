@@ -10,6 +10,21 @@ export class InstanciaServico {
     return this.campos.filter((campo) => camposResumo.includes(campo.nome))
       .map((campo)=> `${campo.nome}=${campo.value}`).join(", ");
   }
+
+  copy(){
+    const copy = new InstanciaServico();
+    copy.quantidade = this.quantidade;
+    copy.metaData = this.metaData;
+    copy.id = this.id;
+    copy.campos  =this.campos.map(instancia => {
+      return {
+        nome: instancia.metaDados.nome,
+        metaDados: instancia.metaDados,
+        value: instancia.value
+      }
+    })
+    return copy;
+  }
 }
 
 export class Servico {
@@ -22,11 +37,11 @@ export class Servico {
   catalogo!: number;
   multiplo: boolean = false;
 
-  static fromData(data: any): Servico {
+  static fromData(data: any, index?:number, servicos?:Servico[]): Servico {
     const servico:any = new Servico();
     for(let prop in servico){
       if (prop == "campos" && data.campos) {
-        servico.campos = data.campos.map((campo:Campo) => Campo.fromData(campo));
+        servico.campos = data.campos.map((campo:Campo) => Campo.fromData(campo, servicos));
       }
       else servico[prop] = data[prop];
     }

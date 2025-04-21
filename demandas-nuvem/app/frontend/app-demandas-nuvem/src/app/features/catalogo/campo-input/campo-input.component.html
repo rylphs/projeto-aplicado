@@ -29,6 +29,10 @@
   </mat-form-field>
   }
 
+  @if(campo.metaDados.isTable()){
+    <app-campo-servico [campo]="campo"></app-campo-servico>
+  }
+
   @if(campo.metaDados.isTextArea()){
   <mat-form-field [style.min-width.px]="campo.metaDados.width">
     <textarea matInput [style.min-width.px]="campo.metaDados.width"

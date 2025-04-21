@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Servico } from './servico.model';
 import { ApiService } from '../../core/api/api.service';
 import { environment } from '../../../environments/environment';
+import { map } from 'rxjs';
 
 export class Catalogo {
   _id!: string;
@@ -19,7 +20,11 @@ export class CatalogoService extends ApiService<Catalogo>{
   }
 
   public getCurrentCatalogo(){
-    return this.doGetSingle(environment.APIGATEWAY_ROUTES.CATALOGO_ATUAL);
+    return this.doGetSingle(environment.APIGATEWAY_ROUTES.CATALOGO_ATUAL).pipe(map(response => {
+      if(response.statusCode < 400)
+        response.message.servicos = response.message.servicos.map(servico => Servico.fromData(servico));
+      return response;
+    }))
   }
 
   public gerarVersao(){

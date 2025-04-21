@@ -1,5 +1,5 @@
 [
- {"nome": "servidor", "label": "Servidor", "catalogo": 1,
+ {"nome": "servidor", "label": "Servidor", "catalogo": 1, "multiplo": true,
  "descricao": "Representa um recurso computacional. Pode ser referente a um servidor em seu ambiente on premisses a ser migrado, ou mesmo uma necessidade de um recurso na nuvem.",
  "resumo": ["ambiente", "cpu", "memoria"],
 "campos": [
@@ -10,8 +10,8 @@
             "ajuda": "Informe qual o ambiente de uso do serviço.",
             "obrigatorio": true,
             "default": "Desenvolvimento",
-            "tipoCampo": {
-                "tipo": "combobox",
+            "definicao": {
+                "tipo": "OPTION",
                 "dominio": [
                     "Desenvolvimento",
                     "Homologação",
@@ -28,8 +28,8 @@
             "descricao": "Informe a identificação do servidor",
             "ajuda": "Descrição que identifica o servidor.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "texto",
+            "definicao": {
+                "tipo": "TEXT",
                 "dominio": null
             }
         },
@@ -39,8 +39,8 @@
             "descricao": "Selecione o tipo de servidor",
             "ajuda": "Selecione qual o tipo de servidor, se físico (bare metal) ou virtual.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "combobox",
+            "definicao": {
+                "tipo": "OPTION",
                 "dominio": [
                     "Físico",
                     "Virtual"
@@ -54,8 +54,8 @@
             "ajuda": "Quantidade de núcleos do servidor.",
             "obrigatorio": true,
             "default": 1,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -66,8 +66,8 @@
             "ajuda": "Quantidade de memória do servidor.",
             "obrigatorio": true,
             "default": 8,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -78,8 +78,8 @@
             "ajuda": "Tamanho do disco do Sistema Operacional (SO) do servidor.",
             "obrigatorio": true,
             "default": 15,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -89,8 +89,8 @@
             "descricao": "Selecione o tipo do disco do Sistema Operacional",
             "ajuda": "Tipo do disco do Sistema Operacional (SO) do servidor.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "combobox",
+            "definicao": {
+                "tipo": "OPTION",
                 "dominio": [
                     "HDD",
                     "SSD"
@@ -104,8 +104,8 @@
             "ajuda": "Unidade Central de Processamento (CPU) é indicado para o gerenciar o sistema e suas tarefas, hardware e periféricos, já Unidade de Processamento Gráfico (GPU) é especializada em execução de tarefas em paralelo como computação gráfica, edição de vídeo, machine learning.",
             "obrigatorio": true,
             "default": "CPU",
-            "tipoCampo": {
-                "tipo": "combobox",
+            "definicao": {
+                "tipo": "OPTION",
                 "dominio": [
                     "CPU",
                     "GPU"
@@ -119,8 +119,8 @@
             "ajuda": "Quantidade de núcleos físicos do processador do servidor.",
             "obrigatorio": true,
             "default": 1,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -130,8 +130,8 @@
             "descricao": "Informe a capacidade de processamento em GHz",
             "ajuda": "Capacidade de processamento em GHz do servidor",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -141,8 +141,8 @@
             "descricao": "Selecione o sistema operacional do servidor",
             "ajuda": "Selecione o Sistema Operacional (SO) que mais se adeque ao servidor. Caso nenhuma opção listada atenda, informe qual o SO e sua respectiva versão na caixa de texto. Por exemplo: Windows Server 2016, Linux Ubuntu 22.04, Linux Red Hat 7. OBS: Quanto mais detalhada for a informação, melhor para a elaboração do projeto.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "combobox",
+            "definicao": {
+                "tipo": "OPTION",
                 "dominio": [
                     "Linux",
                     "Linux Server com SQL Server Standart",
@@ -170,8 +170,8 @@
             "descricao": "Informe o nome do serviço hospedado no servidor",
             "ajuda": "Informe o serviço hospedado no servidor, por exemplo: aplicação (implantação tradicional); host para contêineres; DNS; Diretório; File Server; Cluster Hadoop; Cluster Spark; etc. Quando for o caso, informe a versão também.",
             "obrigatorio": false,
-            "tipoCampo": {
-                "tipo": "texto",
+            "definicao": {
+                "tipo": "TEXT",
                 "dominio": null
             }
         },
@@ -182,8 +182,8 @@
             "ajuda": "Percentual de disponibilidade do servidor no mês",
             "obrigatorio": true,
             "default": 100,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -193,8 +193,8 @@
             "descricao": null,
             "ajuda": "Selecione SIM para indicar o uso de licença de software OU se tiver interesse em utilizar.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "boleano",
+            "definicao": {
+                "tipo": "BINARY",
                 "dominio": [
                     "Sim",
                     "Não"
@@ -207,8 +207,8 @@
             "descricao": "Informe a licença de software",
 			"ajuda": "Informe a licença de software do sistema operacional do servidor.",
             "obrigatorio": false,
-            "tipoCampo": {
-                "tipo": "texto",
+            "definicao": {
+                "tipo": "TEXT",
                 "dominio": null
             }
         },
@@ -218,8 +218,8 @@
             "descricao": null,
             "ajuda": "Selecione SIM para indicar o uso de redundância OU se tiver interesse em utilizar para garantir alta disponibilidade.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "boleano",
+            "definicao": {
+                "tipo": "BINARY",
                 "dominio": [
                     "Sim",
                     "Não"
@@ -232,8 +232,8 @@
             "descricao": "Informe qual o tipo de redundância utilizado",
             "ajuda": "Informe como e qual cluster o tipo de redundância utilizado, por exemplo Cluster1.",
             "obrigatorio": false,
-            "tipoCampo": {
-                "tipo": "texto",
+            "definicao": {
+                "tipo": "TEXT",
                 "dominio": null
             }
         },
@@ -243,8 +243,8 @@
             "descricao": "Informe o desempenho de rede em GB",
             "ajuda": "Desempenho de rede em GB.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "numerico",
+            "definicao": {
+                "tipo": "INTEGER",
                 "dominio": null
             }
         },
@@ -254,9 +254,9 @@
             "descricao": "Selecione o tipo da instância do servidor",
             "ajuda": "Selecione o tipo de locação na qual deseja executar suas instâncias do servidor.",
             "obrigatorio": true,
-            "tipoCampo": 
+            "definicao": 
 				{
-                "tipo": "combobox",
+                "tipo": "OPTION",
                 "dominio": [
                     "Instâncias compartilhadas",
                     "Instâncias dedicadas",
@@ -271,9 +271,9 @@
             "descricao": "Selecione a exposição",
             "ajuda": "Selecione o tipo de acesso do servidor à rede.",
             "obrigatorio": true,
-            "tipoCampo": 
+            "definicao": 
 				{
-                "tipo": "combobox",
+                "tipo": "OPTION",
                 "dominio": 
 					[
                     "Internet",
@@ -288,8 +288,8 @@
             "descricao": null,
             "ajuda": "Este campo é indicado para utilizar quando há necessidade de detalhamento e/ou complementação de alguma informação referente a um campo anterior ou qualquer outra informação que tenha relevância no projeto.",
             "obrigatorio": true,
-            "tipoCampo": {
-                "tipo": "boleano",
+            "definicao": {
+                "tipo": "BINARY",
                 "dominio": [
                     "Sim",
                     "Não"
@@ -302,8 +302,8 @@
             "descricao": "Complemente aqui alguma informação que julgue necessária",
             "ajuda": "Este campo é indicado para utilizar quando há necessidade de detalhamento e/ou complementação de alguma informação referente a um campo anterior ou qualquer outra informação que tenha relevância no projeto.",
             "obrigatorio": false,
-            "tipoCampo": {
-                "tipo": "textoarea",
+            "definicao": {
+                "tipo": "TEXTAREA",
                 "dominio": null
 				}
 		}

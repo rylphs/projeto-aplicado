@@ -18,9 +18,7 @@ import { Servico } from '../servico.model';
   styleUrl: './lista-catalogo.component.css'
 })
 export class ListaCatalogoComponent {
-  catalogos!: Catalogo[];
   catalogoAtual!: Catalogo;
-  datasource!: MatTableDataSource<Catalogo>
   servicosDatasource!: MatTableDataSource<Servico>
   cols =  ["versao", "actions"];
   colsServico = ["nome", "label", "descricao", "actions"]
@@ -32,16 +30,9 @@ export class ListaCatalogoComponent {
     this.messageService.getSubject("servico").subscribe(response=>{
       this.snackbar.open(response.message, "fechar");
     })
-    this.catalogoService.getAllCatalogos().subscribe((response)=>{
 
-      if(response.statusCode < 400){
-        this.catalogos = response.message;
-        this.datasource = new MatTableDataSource(this.catalogos);
-      }
-    })
     this.catalogoService.getCurrentCatalogo().subscribe((response)=>{
       if(response.statusCode < 400){
-        console.log(response.message);
         this.catalogoAtual = response.message;
         this.servicosDatasource = new MatTableDataSource(this.catalogoAtual.servicos);
       }
@@ -91,9 +82,7 @@ export class ListaCatalogoComponent {
     const message = "Tem certeza?";
     confirm(this.dialog, title, message, (confirma)=>{
       if(confirma){
-        console.log("antes", servico.nome, this.catalogoAtual.servicos)
         this.catalogoAtual.servicos = this.catalogoAtual.servicos.filter((s)=>{return s.nome != servico.nome});
-        console.log("depois", this.catalogoAtual.servicos)
         if(servico._id)
           this.servicoService.excluirServico(servico._id).subscribe((response)=>{
             if(response.statusCode < 400){

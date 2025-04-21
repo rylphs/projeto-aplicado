@@ -32,6 +32,6 @@ mat-form-field {
   gap: 20px;
 }
 
-.multiline_text{
+.multiline_text, .list{
   flex-basis: 100%;
 }
